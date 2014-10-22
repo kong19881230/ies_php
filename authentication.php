@@ -2,6 +2,15 @@
 <?php
 require_once('easylogin/includes/load.php');
 
+function RandomString()
+{
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $randstring = '';
+    for ($i = 0; $i < 10; $i++) {
+        $randstring .= $characters[rand(0, strlen($characters))];
+    }
+    return $randstring;
+}
 if ( isset($_POST["txtUName"]) && !empty($_POST["txtUName"]) &&isset($_POST["txtPass"]) ) { 
 
 $Uname = $_POST["txtUName"];
@@ -28,14 +37,9 @@ $EL = EasyLogin::getInstance();
     }
 
 
-function RandomString()
-{
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $randstring = '';
-    for ($i = 0; $i < 10; $i++) {
-        $randstring = $characters[rand(0, strlen($characters))];
-    }
-    return $randstring;
-}
+}else{
+	  $response["status"]=500;
+   		$response["message"] = "User name or password is empty!";
+   		die(json_encode($response));
 }
 ?> 
