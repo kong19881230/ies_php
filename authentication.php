@@ -10,11 +10,9 @@ $Pass = $_POST["txtPass"];
 $EL = EasyLogin::getInstance();
 
 
-
-if (isset($_POST['signin'])) {
     if ( $EL->signin($Uname, $Pass, false) ) {
     	$users = Sdba::table('users');
-		$users->where('username'=>$Uname);
+		$users->where('username',$Uname);
 		$user=$users->get_one();
       	$response["token"]=RandomString();
         $response["status"]=200;
@@ -28,7 +26,7 @@ if (isset($_POST['signin'])) {
    		$response["message"] = "User name or password is incorrected!";
    		die(json_encode($response));
     }
-}
+
 
 function RandomString()
 {
