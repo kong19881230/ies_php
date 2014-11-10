@@ -1,27 +1,20 @@
-<?php include('sdba/sdba.php'); ?>
-<?php
-
-    if ( isset($_POST["txtUName"]) && !empty($_POST["txtUName"]) &&isset($_POST["txtToken"]) ) { 
-
-        $Uname = $_POST["txtUName"];
-        $Token = $_POST["txtToken"];
-         $machine_attributes= Sdba::table('machine_attributes');
-         $equipments = Sdba::table('equipments');
-               
-         $projects= Sdba::table('projects');
-
-           $indicators= Sdba::table('indicators');
-    	$users = Sdba::table('users');
-    	$users->where('username',$Uname)->and_where('current_token',$Token);
-    	$user=$users->get_one();
-        if($user!=null){
-          
-              $response["status"]=200;
+    <?php include('sdba/sdba.php'); ?>
+    <?php
+        $users = Sdba::table('users');
+            $users->where('username','admin');
+            $user=$users->get_one();
+            $machine_attributes= Sdba::table('machine_attributes');
+             $equipments = Sdba::table('equipments');
+               $indicators= Sdba::table('indicators');
+                 $projects= Sdba::table('projects');
+            if($user!=null){
+              
+                $response["status"]=200;
                 $response["message"] = "Load equipments successlly!";
                
                 $projects->fields('name_en');
-                $projects->fields('photo');
                 $projects->fields('name_cn');
+                $equipments->fields('photo');
                 $projects->left_join('id','project_users','project_id');
                 $projects->where('user_id',$user["id"],'project_users');
                 $project_list=$projects->get();
@@ -49,12 +42,11 @@
                         $machine_attributes->fields('name_en',false,'machine_attribute_names');
                          $machine_attributes->fields('name_cn',false,'machine_attribute_names');
                         $machine_attributes->left_join('machine_attribute_name_id','machine_attribute_names','id');
-                         $machine_attributes->fields('name_en','name_cn',true,'machine_attribute_names');
+                     
                         $machine_attributes->where('machine_id',$equipment["machine_id"] );
                         $equipment["machine_attributes"]=$machine_attributes->get();
 
-
-                           $indicators->fields('type');
+                        $indicators->fields('type');
                         $indicators->fields('channel');
                         $indicators->fields('name_en');
                         $indicators->fields('name_cn');
@@ -70,18 +62,6 @@
                 }
                 $response["project_list"]=$project_list;
                 die(json_encode($response));
-        }
-        else {
-            $response["status"]=400;
-       		$response["message"] = "User name or token is incorrected!";
-       		die(json_encode($response));
-        }
+            }
 
-
-
-    }else{
-      $response["status"]=500;
-        $response["message"] = "User name or token is empty!";
-        die(json_encode($response));
-    }
-?> 
+    ?> 
