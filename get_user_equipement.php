@@ -29,6 +29,7 @@
                 
                     $equipments->fields('phone_num');
                     $equipments->fields('ref_no');
+                     $equipments->fields('note');
                     $equipments->fields('photo');
                     $equipments->fields('type');
                     $equipments->fields('model_id');
