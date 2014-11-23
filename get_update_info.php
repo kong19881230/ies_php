@@ -1,16 +1,16 @@
   <?php include('sdba/sdba.php'); ?>
   <?php
 
-      // if ( isset($_POST["txtUName"]) && !empty($_POST["txtUName"]) &&isset($_POST["txtToken"]) ) { 
+       if ( isset($_POST["txtUName"]) && !empty($_POST["txtUName"]) &&isset($_POST["txtToken"]) ) { 
 
-      //     $Uname = $_POST["txtUName"];
-      //     $Token = $_POST["txtToken"];
+          $Uname = $_POST["txtUName"];
+           $Token = $_POST["txtToken"];
            $equipments = Sdba::table('equipments');
                  
            $projects= Sdba::table('projects');
 
-      // strcmp($Uname, "iesreport") == 0 && strcmp($Token, "iespass") == 0
-          if(true){
+       
+          if(strcmp($Uname, "iesreport") == 0 && strcmp($Token, "iespass") == 0){
             
                   $response["status"]=200;
                   $response["message"] = "Load Update Info successlly!";
@@ -39,7 +39,10 @@
                       $project["catalogs"]=json_decode($project["machine_types"],true);
                       unset( $project["machine_types"]);
                       foreach ($equipment_list as &$e) {
-                           $project["eq_list"][$e["type"]][$e["ref_no"]]=$e;
+                          $model=$e["model_id"];
+                          unset( $e["model_id"]);
+                          $e["model"]=$model;
+                           $project["eq_lists"][$e["type"]][$e["ref_no"]]=$e;
                       }
                   }
                   $response["project_list"]=$project_list;
@@ -81,9 +84,9 @@
 
 
 
-      // }else{
-      //   $response["status"]=500;
-      //     $response["message"] = "User name or token is empty!";
-      //     die(json_encode($response));
-      // }
+      }else{
+        $response["status"]=500;
+          $response["message"] = "User name or token is empty!";
+          die(json_encode($response));
+      }
   ?> 
