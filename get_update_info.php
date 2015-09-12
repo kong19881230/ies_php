@@ -8,12 +8,22 @@
            $equipments = Sdba::table('equipments');
                  
            $projects= Sdba::table('projects');
-
+           $photo_reports= Sdba::table('photo_reports');
+           
        
           if(strcmp($Uname, "iesreport") == 0 && strcmp($Token, "iespass") == 0){
             
                   $response["status"]=200;
                   $response["message"] = "Load Update Info successlly!";
+
+
+                  $photo_report_list= $photo_reports->get();
+                  
+                  
+                  foreach ($photo_report_list as &$photo_report) {
+                     $photo_report_hash[$photo_report["key"]]["text_cn"]= $photo_report["text_cn"];
+                  }
+                   $response["photo_report_hash"]= $photo_report_hash;
                   $projects->fields('id');
                   $projects->fields('name_en');
                   $projects->fields('name_cn');
@@ -55,6 +65,7 @@
 
                   foreach ($machine_type_list as &$machine_type) {
                        $maintain_items->where('from_type',$machine_type["name"] );
+                       $maintain_items->order_by('index');
                        $maintain_item_list=$maintain_items->get();
                         foreach ($maintain_item_list as &$maintain_item) {
                           $maintain_item["result"]=json_decode($maintain_item["result_format"]);
@@ -62,6 +73,7 @@
                           $maintain_item_sets->where('maintain_item_id',$maintain_item["id"]);
                           $maintain_item_sets->where('cycle >',0);
                           $maintain_item_set_list=$maintain_item_sets->get();
+                          $maintain_item["projects"]=array();
                           foreach ($maintain_item_set_list as &$maintain_item_set) {
                             $m_project_id= $maintain_item_set["project_id"];
                             unset( $maintain_item_set["id"]);

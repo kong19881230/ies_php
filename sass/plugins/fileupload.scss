@@ -1,118 +1,172 @@
+/*!
+ * Jasny Bootstrap v3.1.0 (http://jasny.github.com/bootstrap)
+ * Copyright 2011-2014 Arnold Daniels.
+ * Licensed under Apache-2.0 (https://github.com/jasny/bootstrap/blob/master/LICENSE)
+ */
+
+.nav-tabs-bottom {
+  border-bottom: 0;
+  border-top: 1px solid #dddddd;
+}
+.nav-tabs-bottom > li {
+  margin-bottom: 0;
+  margin-top: -1px;
+}
+.nav-tabs-bottom > li > a {
+  border-radius: 0 0 0 0;
+}
+.nav-tabs-bottom > li > a:hover,
+.nav-tabs-bottom > li > a:focus,
+.nav-tabs-bottom > li.active > a,
+.nav-tabs-bottom > li.active > a:hover,
+.nav-tabs-bottom > li.active > a:focus {
+  border: 1px solid #dddddd;
+  border-top-color: transparent;
+}
+.nav-tabs-left {
+  border-bottom: 0;
+  border-right: 1px solid #dddddd;
+}
+.nav-tabs-left > li {
+  margin-bottom: 0;
+  margin-right: -1px;
+  float: none;
+}
+.nav-tabs-left > li > a {
+  border-radius: 0 0 0 0;
+  margin-right: 0;
+  margin-bottom: 2px;
+}
+.nav-tabs-left > li > a:hover,
+.nav-tabs-left > li > a:focus,
+.nav-tabs-left > li.active > a,
+.nav-tabs-left > li.active > a:hover,
+.nav-tabs-left > li.active > a:focus {
+  border: 1px solid #dddddd;
+  border-right-color: transparent;
+}
+.row > .nav-tabs-left {
+  padding-right: 0;
+  padding-left: 15px;
+  margin-right: -1px;
+  position: relative;
+  z-index: 1;
+}
+.row > .nav-tabs-left + .tab-content {
+  border-left: 1px solid #dddddd;
+}
+.nav-tabs-right {
+  border-bottom: 0;
+  border-left: 1px solid #dddddd;
+}
+.nav-tabs-right > li {
+  margin-bottom: 0;
+  margin-left: -1px;
+  float: none;
+}
+.nav-tabs-right > li > a {
+  border-radius: 0 0 0 0;
+  margin-left: 0;
+  margin-bottom: 2px;
+}
+.nav-tabs-right > li > a:hover,
+.nav-tabs-right > li > a:focus,
+.nav-tabs-right > li.active > a,
+.nav-tabs-right > li.active > a:hover,
+.nav-tabs-right > li.active > a:focus {
+  border: 1px solid #dddddd;
+  border-left-color: transparent;
+}
+.row > .nav-tabs-right {
+  padding-left: 0;
+  padding-right: 15px;
+}
 .btn-file {
-	position: relative;
-	overflow: hidden;
-	vertical-align: middle;
-	padding:4px 8px;
-
-	border:1px solid #ccc;
+  overflow: hidden;
+  position: relative;
+  vertical-align: middle;
 }
-
 .btn-file > input {
-	position: absolute;
-	top: 0;
-	right: 0;
-	margin: 0;
-	font-size: 23px;
-	cursor: pointer;
-	opacity: 0;
-	filter: alpha(opacity=0);
-	transform: translate(-300px, 0) scale(4);
-	direction: ltr;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  opacity: 0;
+  filter: alpha(opacity=0);
+  transform: translate(-300px, 0) scale(4);
+  font-size: 23px;
+  height: 100%;
+  direction: ltr;
+  cursor: pointer;
 }
-.fileupload {
-	margin-bottom: 0px;
+.fileinput {
+  margin-bottom: 9px;
+  display: inline-block;
 }
-
-.fileupload .uneditable-input {
-	display: inline-block;
-	margin-bottom: 0;
-	vertical-align: middle;
-	cursor: text;
+.fileinput .form-control {
+  padding-top: 7px;
+  padding-bottom: 5px;
+  display: inline-block;
+  margin-bottom: 0px;
+  vertical-align: middle;
+  cursor: text;
 }
-
-.fileupload .thumbnail {
-	display: inline-block;
-	margin-bottom: 5px;
-	overflow: hidden;
-	text-align: center;
-	vertical-align: middle;
+.fileinput .thumbnail {
+  overflow: hidden;
+  display: inline-block;
+  margin-bottom: 5px;
+  vertical-align: middle;
+  text-align: center;
 }
-
-.fileupload .thumbnail > img {
-	display: inline-block;
-	max-height: 100%;
-	vertical-align: middle;
+.fileinput .thumbnail > img {
+  max-height: 100%;
 }
-
-.fileupload .btn {
-	vertical-align: middle;
+.fileinput .btn {
+  vertical-align: middle;
 }
-
-.fileupload-exists .fileupload-new,
-.fileupload-new .fileupload-exists {
-	display: none;
+.fileinput-exists .fileinput-new,
+.fileinput-new .fileinput-exists {
+  display: none;
 }
-
-.fileupload-inline .fileupload-controls {
-	display: inline;
+.fileinput-inline .fileinput-controls {
+  display: inline;
 }
-
-.fileupload-new .input-append .btn-file {
-	-webkit-border-radius: 0 0 0 0;
-	-moz-border-radius: 0 0 0 0;
-	border-radius: 0 0 0 0;
+.fileinput-filename {
+  vertical-align: middle;
+  display: inline-block;
+  overflow: hidden;
 }
-
-.thumbnail-borderless .thumbnail {
-	padding: 0;
-	border: none;
-	-webkit-border-radius: 0;
-	-moz-border-radius: 0;
-	border-radius: 0;
-	-webkit-box-shadow: none;
-	-moz-box-shadow: none;
-	box-shadow: none;
+.form-control .fileinput-filename {
+  vertical-align: bottom;
 }
-
-.fileupload-new.thumbnail-borderless .thumbnail {
-	border: 1px solid #ddd;
+.fileinput-new .input-group .btn-file {
+  border-radius: 0 0 0 0;
 }
-
-.control-group.warning .fileupload .uneditable-input {
-	color: #a47e3c;
-	border-color: #a47e3c;
+.fileinput-new .input-group .btn-file.btn-xs,
+.fileinput-new .input-group .btn-file.btn-sm {
+  border-radius: 0 0 0 0;
 }
-
-.control-group.warning .fileupload .fileupload-preview {
-	color: #a47e3c;
+.fileinput-new .input-group .btn-file.btn-lg {
+  border-radius: 0 0 0 0;
 }
-
-.control-group.warning .fileupload .thumbnail {
-	border-color: #a47e3c;
+.form-group.has-warning .fileinput .fileinput-preview {
+  color: #8a6d3b;
 }
-
-.control-group.error .fileupload .uneditable-input {
-	color: #b94a48;
-	border-color: #b94a48;
+.form-group.has-warning .fileinput .thumbnail {
+  border-color: #faebcc;
 }
-
-.control-group.error .fileupload .fileupload-preview {
-	color: #b94a48;
+.form-group.has-error .fileinput .fileinput-preview {
+  color: #a94442;
 }
-
-.control-group.error .fileupload .thumbnail {
-	border-color: #b94a48;
+.form-group.has-error .fileinput .thumbnail {
+  border-color: #ebccd1;
 }
-
-.control-group.success .fileupload .uneditable-input {
-	color: #468847;
-	border-color: #468847;
+.form-group.has-success .fileinput .fileinput-preview {
+  color: #3c763d;
 }
-
-.control-group.success .fileupload .fileupload-preview {
-	color: #468847;
+.form-group.has-success .fileinput .thumbnail {
+  border-color: #d6e9c6;
 }
-
-.control-group.success .fileupload .thumbnail {
-	border-color: #468847;
+.input-group-addon:not(:first-child) {
+  border-left: 0;
 }

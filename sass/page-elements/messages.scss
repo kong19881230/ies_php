@@ -21,7 +21,6 @@
 			}
 
 			.text{
-				margin-right:50px;
 				input[type="text"]{
 					border:0;
 					margin-bottom: 0;
@@ -39,7 +38,7 @@
 					background: $blue;
 					color:#fff;
 					margin: 2px;
-					padding:3px 4px;
+					padding:6px 8px;
 					&[disabled="disabled"]{
 						background: #ccc;
 					}
@@ -50,6 +49,10 @@
 		.image{
 			float:left;
 			width:50px;
+
+			img{
+				width:50px;
+			}
 		}
 		.message{
 			position: relative;

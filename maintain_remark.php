@@ -31,12 +31,15 @@
 		unset($_SESSION["key"]);
 		$_SESSION["key"] = md5(uniqid().mt_rand());				
 		?>
+
 <script>
 //location.reload();
 </script>
 		<?php								 
  }
  ?>
+ 
+
 		<div id="main">
 			<div class="container-fluid">
 				<?php 
@@ -58,11 +61,30 @@
 						<ul class="stats">
 							 
 							<li class='lightred'>
-								<a href='mfr_print.php?id=<?php echo $maintain_froms_list[0]['id']; ?>' target='blank'>
+								<a href='mrm_print.php?id=<?php echo $maintain_froms_list[0]['id']; ?>' target='blank'>
 								<i class="fa fa-print"></i>
 								<div class="details">
 									<span class="big">Print preview</span>
 									<span>移至列印頁面</span>
+								</div>
+								</a>
+							</li>
+							
+							<li class='green'  >
+								<a href='http://uniquecode.net/job/ms/mpdf56/maintenance_remark.php?id=<?php echo $_GET['id']; ?>' target='blank'>
+								<i class="fa fa-file-pdf-o"></i>
+								<div class="details">
+									<span class="big">PDF</span>
+									<span>以PDF保存</span>
+								</div>
+								</a>
+							</li>
+							<li class='blue'>
+								<a href='?page=maintain_remark_doc&id=<?php echo $maintain_froms_list[0]['id']; ?>' target='blank'>
+								<i class="fa fa-print"></i>
+								<div class="details">
+									<span class="big">Word</span>
+									<span>Word編輯保存</span>
 								</div>
 								</a>
 							</li>
@@ -156,6 +178,7 @@
 										<tr>
 											<td style="vertical-align: middle;"  >
 												<input type='hidden' id='id' value='<?php echo $_GET['id'] ; ?>'>
+												
 												<textarea id='text<?php echo $i; ?>'  name='text[]' class="form-control up_val" placeholder="<?php echo $result[$i]['text'] ; ?>" rows="2"><?php echo $result[$i]['text'] ; ?></textarea>
 												 
 												 <br>

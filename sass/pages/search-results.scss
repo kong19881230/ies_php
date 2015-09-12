@@ -19,7 +19,8 @@
 				text-decoration: none;
 				color:#333;
 				border:0;
-				padding:5px 12px;
+				padding:7px 12px;
+				@include border-radius(0);
 
 				&:hover{
 					background: #ddd;

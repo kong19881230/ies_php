@@ -25,10 +25,10 @@ body.error{
 			margin:20px 0;
 		}
 
-		.input-append{
+		.input-group{
 			width:300px;
 			background: #fff;
-			padding:2px;
+			padding:0 2px;
 
 			input{
 				border:0;
@@ -45,6 +45,10 @@ body.error{
 					background: darken($blue, 15%);
 				}
 			}
+		}
+
+		.buttons{
+			margin-top: 15px;
 		}
 	}
 }

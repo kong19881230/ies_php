@@ -81,7 +81,7 @@
   					//echo '</pre>';
   					$result = json_decode($projects_list[0]['machine_types'],true);
   					$cycle_types = json_decode($projects_list[0]['cycle_types'],true);
-  					 
+  					
   					//echo '<pre>';
   					//print_r(array_unique($from_type_unique));
   					//echo '</pre>';
@@ -133,7 +133,7 @@
   										$maintain_item_set ->where('project_id',$_GET['id']);
   										//$total_maintain_item_set = $maintain_item_set->total();
   										//$maintain_item_set_list = $maintain_item_set->get();
-  										
+  									
   									 
   									?>
   									<?php 
@@ -170,6 +170,7 @@
   									?>
   										<tr>
   											<input type='hidden' id="project_id" value='<?php echo $_GET['id']; ?>' ?>
+  											<input name="newid" type="hidden" id="newid<?php echo $maintain_items_list[$i]['id']; ?>" value="<?php echo $maintain_item_set_list[0]['id']; ?>">
   											<input type='hidden' id="id<?php echo $maintain_items_list[$i]['id']; ?>" value='<?php echo $maintain_item_set_list[0]['id']; ?>' ?>
 											<td><input type="checkbox" id='maintain_item_id<?php echo $maintain_items_list[$i]['id']; ?>' class='icheck-me' <?php echo $checked; ?>  data-skin="minimal"  ></td>
 											<td>
@@ -180,7 +181,16 @@
 												 
 												</select>
 											</td>
-											<td ><?php echo $maintain_items_list[$i]['item_name_cn'].'<br>'.$maintain_items_list[$i]['item_name_en']; ?></td>
+											<td ><?php echo $maintain_items_list[$i]['item_name_cn'].'<br>'.$maintain_items_list[$i]['item_name_en']; ?>
+												<br> 
+											<?php if (count($result['exm_photos']) > 0) { ?>
+											<?php for ($a=0; $a<count($result['exm_photos']); $a++) { ?>
+											<a href="exm_photos/<?php echo $result['exm_photos'][$a]; ?>.jpg" class="colorbox-image cboxElement" rel="group-1" target='blank'>
+												<img src="exm_photos/<?php echo $result['exm_photos'][$a]; ?>.jpg" height="60px" >
+											</a>
+											<?php } ?>
+											<?php } ?>	
+											</td>
 											<?php 
 											if ($result['type']=='bool'){
 												echo '<td style="vertical-align: middle;" colspan="2" align="center"> <i class="glyphicon-ok_2"></i> 正常 | △ 待處理 | ◯ 已修復 </td>';
@@ -233,7 +243,11 @@
      		var maintain_item_id= $(this).attr('id');
      		maintain_item_id = maintain_item_id.slice(5);
 			var poid = $("#id"+maintain_item_id ).val();
+			var newid = $("#newid"+maintain_item_id ).val();
 			
+			//alert(newid+'/'+poid);
+			if (newid != poid){poid = newid; }
+			//alert(poid);
 			var project_id = $( "#project_id" ).val();
      		var cycles = $(this).val();
      		var MM_update = "update_maintain_items_set_cycle";
@@ -251,7 +265,7 @@
 					
 					if (text == "ok"){
 						//alert("删除成功");
-						location.reload();
+						//location.reload();
 					}else{
 						alert("删除錯誤\n \n /"+text+"/");
 						 
@@ -266,7 +280,10 @@
      		var maintain_item_id= $(this).attr('id');
      		maintain_item_id = maintain_item_id.slice(16);
 			var poid = $("#id"+maintain_item_id ).val();
+			var newid = $("#newid"+maintain_item_id ).val();
 			
+			//alert(newid+'/'+poid);
+			if (newid != poid){poid = newid; }
 			var project_id = $( "#project_id" ).val();
      		var cycles = $( "select[name=cycle"+maintain_item_id+"]" ).val();
      		var MM_update = "update_maintain_items_set";
@@ -281,8 +298,11 @@
 				success: function(text)
 				{
 					text = $.trim(text);
-					
-					if (text == "ok"){
+					id = text.slice(2);
+					resStr = text.substring(2,-1); 
+					//alert(resStr);
+					if (resStr == "ok"){
+						$("#newid"+maintain_item_id ).val(id);
 						//alert("删除成功");
 						//location.reload();
 					}else{

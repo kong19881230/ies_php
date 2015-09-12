@@ -1,4 +1,22 @@
 <?php if (!defined('EL_ADMIN')) exit('No direct script access allowed'); ?>
+		<?php  
+ 					
+ 					$projects = Sdba::table('projects');
+  					//$projects->where('report_id',$_GET['id']);
+  					$total_projects = $projects->total(); 
+  					$projects_list = $projects->get();
+  					//echo '<pre>';
+  					//print_r($projects_list);
+  					//echo '</pre>';
+  					for ($i=0; $i<$total_projects;$i++){ 
+  						$from_type_arr[] = $projects_list[$i]['from_type'];
+  					}
+  					$from_type_unique = array_unique($from_type_arr);
+  					//echo '<pre>';
+  					//print_r(array_unique($from_type_unique));
+  					//echo '</pre>';
+  					if (!isset($_GET['ft'])){$_GET['ft']=$from_type_unique[0];}
+  				?>
  		<div id="main">
 			<div class="container-fluid">
 				<div class="page-header">
@@ -44,24 +62,25 @@
 						</a>
 					</div>
 				</div>
- 				<?php  
- 					
- 					$projects = Sdba::table('projects');
-  					//$projects->where('report_id',$_GET['id']);
-  					$total_projects = $projects->total(); 
-  					$projects_list = $projects->get();
-  					//echo '<pre>';
-  					//print_r($projects_list);
-  					//echo '</pre>';
-  					for ($i=0; $i<$total_projects;$i++){ 
-  						$from_type_arr[] = $projects_list[$i]['from_type'];
-  					}
-  					$from_type_unique = array_unique($from_type_arr);
-  					//echo '<pre>';
-  					//print_r(array_unique($from_type_unique));
-  					//echo '</pre>';
-  					if (!isset($_GET['ft'])){$_GET['ft']=$from_type_unique[0];}
-  				?>
+				<?php if (!isset($_GET['region'])){$_GET['region'] = 'mo';} ?>
+ 				<div class="row">
+					<div class="col-sm-12">
+						<h6>　</h6>
+						<p>
+							<ul class="nav nav-tabs">
+							
+								<li <?php  if ( $_GET['region'] == 'mo'){ echo 'class="active"';  } ?>>
+									<a href="?page=projects&region=mo">Macau</a>
+								</li>
+								<li <?php  if ( $_GET['region'] == 'hk'){ echo 'class="active"';  } ?>>
+									<a href="?page=projects&region=hk">Hong Kong</a>
+								</li>
+								 
+						 
+							</ul>
+						</p>
+					</div>
+				</div>
 				 
 				<div class="row">
 					<div class="col-sm-12">
@@ -90,7 +109,7 @@
 									<tbody>
 									<?php  
   										$projects = Sdba::table('projects');
-  										//$projects->where('from_type',$_GET['ft']);
+  										$projects->where('region',$_GET['region']);
   										//$projects->where('report_id',$_GET['id']);
   										$total_projects = $projects->total();
   										$projects_list = $projects->get();
@@ -107,7 +126,7 @@
 											<td style="text-align: center;"><?php echo $projects_list[$i]['id']; ?></td>
 											<td style="text-align: center;"><?php echo $projects_list[$i]['name_cn']; ?><br><?php echo $projects_list[$i]['name_en']; ?></td>
 											<td style="text-align: center;"><?php echo chkempty($projects_list[$i]['seq']); ?></td>
-											<td style="text-align: center;"><?php echo chkempty($projects_list[$i]['con_start_date']); ?><br><?php echo chkempty($projects_list[$i]['con_espr_date']); ?></td>
+											<td style="text-align: center;"><?php echo chkempty($projects_list[$i]['con_start_date']); ?><br><?php echo chkempty($projects_list[$i]['con_espr_date']); ?><br><?php echo  $projects_list[$i]['con_count']; ?></td>
 											 
 											 
 											<td style="text-align: center;"><?php echo chkempty($projects_list[$i]['maintain_type']); ?></td>

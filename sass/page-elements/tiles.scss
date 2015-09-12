@@ -146,7 +146,7 @@
 		&.long{
 			&:hover{
 				&:before{
-					width: 235px;
+					width: 245px;
 				}
 			}
 			&>a{
@@ -154,7 +154,7 @@
 
 				span{
 					font-size:64px;
-					padding-top:25px;
+					padding-top:10px;
 				}
 			}
 		}
@@ -162,14 +162,14 @@
 		&.high{
 			&:hover{
 				&:before{
-					height: 235px;
+					height: 245px;
 				}
 			}
 			&>a{
 				height:245px;
 
 				span{
-					padding-top:75px;
+					padding-top:50px;
 					font-size:96px;
 
 					&.count{
@@ -206,7 +206,7 @@
 			text-align:center;
 
 			span{
-				padding-top:35px;
+				padding-top:25px;
 				font-size:48px;
 				display: block;
 

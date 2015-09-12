@@ -1,5 +1,5 @@
 <?php if (!defined('EL_ADMIN')) exit('No direct script access allowed'); ?>
- <?php 
+ <?php date_default_timezone_set("Asia/Hong_Kong");
  if(isset($_SESSION["key"], $_POST["key"]) && $_SESSION["key"] == $finalkey){
  	//echo 'xx'.$finalkey;$_SESSION["key"] = md5(uniqid().mt_rand());
 		date_default_timezone_set("Asia/Hong_Kong");
@@ -38,17 +38,21 @@
 			'seq'=> $finalseq,
 			'con_espr_date'=>date('Y-m-d', strtotime($finalcon_espr_date)),
 			'con_start_date'=> date('Y-m-d', strtotime($finalcon_start_date)),
+			'con_count'=> $finalcon_count,
 			'maintain_type'=> $finalmaintain_type,
 			'report_style'=> $finalreport_style,
 			'device_position'=> $finaldevice_position,
 			'contact_person'=> $finalcontact_person,
 			'contact_phone'=> $finalcontact_phone,
+			'region'=> $finalregion,
 			'remark'=> $finalremark,
 			'updated_at'=> date('Y-m-d H:i:s'),
 			'cycle_types'=> $finalcycle_types,
 			'machine_types'=>$finalmachine_types,
+			'default_lang'=>$finaldefault_lang,
 			'photo'=> $photoname
 		);
+		 
 		$ud_projects ->update($data);
 		unset($_SESSION["key"]);
 		$_SESSION["key"] = md5(uniqid().mt_rand());				
@@ -63,9 +67,17 @@ window.location = './?page=projects';
  ?>
  		<div id="main">
 			<div class="container-fluid">
+				<?php  
+  					$projects = Sdba::table('projects');
+  					$projects->where('id',$_GET['id']);
+  					$total_projects = $projects->total();
+  					$projects_list = $projects->get();
+  					//echo $total_rows;
+  					//print_r($reportlist);
+  				?>
 				<div class="page-header">
 					<div class="pull-left">
-						<h1>Projects </h1>
+						<h1><?php echo $projects_list[0]['name_cn']; ?> ／ <?php echo $projects_list[0]['name_en']; ?> </h1>
 					</div>
 					<div class="pull-right">
 						 
@@ -81,14 +93,7 @@ window.location = './?page=projects';
 						</ul>
 					</div>
 				</div>
-				<?php  
-  					$projects = Sdba::table('projects');
-  					$projects->where('id',$_GET['id']);
-  					$total_projects = $projects->total();
-  					$projects_list = $projects->get();
-  					//echo $total_rows;
-  					//print_r($reportlist);
-  				?>
+				
 				<div class="breadcrumbs">
 					<ul>
 						<li>
@@ -118,14 +123,32 @@ window.location = './?page=projects';
  				
 				<div class="row">
 					<div class="col-sm-12">
+						<form action="?page=projects_edit&id=<?php echo $projects_list[0]['id']; ?>" method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered'>
 						<div class="box box-bordered">
 							<div class="box-title">
 								<h3>
-									<i class="fa fa-th-list"></i><?php echo $projects_list[0]['name_cn']; ?> ／ <?php echo $projects_list[0]['name_en']; ?></h3>
+									<i class="fa fa-th-list"></i>基本資料</h3>
 							</div>
 							<div class="box-content nopadding">
-							
-								<form action="?page=projects_edit&id=<?php echo $projects_list[0]['id']; ?>" method="POST" enctype="multipart/form-data" class='form-horizontal form-bordered'>
+									<div class="form-group">
+										<label for="textarea" class="control-label col-sm-2">圖片</label>
+										<div class="col-sm-10">
+											<div class="fileinput fileinput-new" data-provides="fileinput">
+												<div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 160px; height: 120px;">
+													<img src="photo/project/<?php echo $projects_list[0]['photo']; ?>" >
+												</div>
+												<div>
+													<span class="btn btn-default btn-file">
+														<span class="fileinput-new">Select image</span>
+													<span class="fileinput-exists">Change</span>
+													<input type="file" name="photo">
+													</span>
+													<a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								
 									<div class="form-group">
 										<label for="textfield" class="control-label col-sm-2">項目編號</label>
 										<div class="col-sm-10">
@@ -136,16 +159,21 @@ window.location = './?page=projects';
 									<div class="form-group">
 										<label for="textfield" class="control-label col-sm-2">合約開始日期</label>
 										<div class="col-sm-10">
-											<input type="text" name="con_start_date" id="textfield" placeholder="2010-05-06" class="form-control datepick" value='<?php echo  date('d/m/Y', strtotime($projects_list[0]['con_start_date'])); ?>'>
+											<input type="text" name="con_start_date" id="textfield" placeholder="YYYY-MM-DD" class="form-control " value='<?php echo  date('Y-m-d', strtotime($projects_list[0]['con_start_date'])); ?>'>
 										</div>
 									</div>
 									<div class="form-group">
 										<label for="textfield" class="control-label col-sm-2">合約結束日期</label>
 										<div class="col-sm-10">
-											<input type="text" name="con_espr_date" id="textfield" placeholder="2014-05-06" class="form-control datepick" value='<?php echo  date('d/m/Y', strtotime($projects_list[0]['con_espr_date'])); ?>'>
+											<input type="text" name="con_espr_date" id="textfield" placeholder="YYYY-MM-DD" class="form-control " value='<?php echo  date('Y-m-d', strtotime($projects_list[0]['con_espr_date'])); ?>'>
 										</div>
 									</div>
-									
+									<div class="form-group">
+										<label for="textfield" class="control-label col-sm-2">合約期數</label>
+										<div class="col-sm-10">
+											<input type="text" name="con_count" id="textfield" placeholder="<?php echo chkempty($projects_list[0]['con_count']); ?>" class="form-control" value='<?php echo $projects_list[0]['con_count']; ?>'>
+										</div>
+									</div>
 									<div class="form-group">
 										<label for="textfield" class="control-label col-sm-2">保養內容</label>
 										<div class="col-sm-10">
@@ -189,6 +217,31 @@ window.location = './?page=projects';
 											<input type="text" name="updated_at" id="text" placeholder="<?php echo chkempty($projects_list[0]['updated_at']); ?>" class="form-control" value='<?php echo $projects_list[0]['updated_at']; ?>'>
 										</div>
 									</div>
+							 		 <div class="form-group">
+										<label for="text" class="control-label col-sm-2">地區</label>
+										<div class="col-sm-10">
+											<select name="region" id="region" class='select2-me' style="width:100%">
+												<option value="mo" <?php if ($projects_list[0]['region'] == 'mo'){ echo 'selected'; } ?> >Macau</option>
+												<option value="hk" <?php if ($projects_list[0]['region'] == 'hk'){ echo 'selected'; } ?> >Hong Kong</option> 
+											</select>
+										</div>
+									</div>
+									 
+									<div class="form-group">
+										<label for="textarea" class="control-label col-sm-2">註備</label>
+										<div class="col-sm-10">
+											<textarea name="remark" id="textarea" rows="5" class="form-control" placeholder="<?php echo chkempty($projects_list[0]['remark']); ?>"><?php echo $projects_list[0]['remark']; ?></textarea>
+										</div>
+									</div>
+									 
+								 
+							</div>
+							<div class="box-title">
+								<h3>
+									<i class="fa fa-th-list"></i>報告的設定</h3>
+							</div>
+							<div class="box-content nopadding">
+							 
 									<div class="form-group">
 										<label for="textfield" class="control-label col-sm-2">保養期</label>
 										<div class="col-sm-10">
@@ -238,40 +291,38 @@ window.location = './?page=projects';
 											<?php } ?>
 											 
 										</div>
+										
+										
 									</div>
+									 <div class="form-actions col-sm-offset-2 col-sm-10">
+											<input type="hidden" name="key" value="<?php echo htmlspecialchars($_SESSION["key"], ENT_QUOTES);?>">
+											<button type="submit" class="btn btn-primary">Save changes</button>
+											<a type="button" class="btn" href="?page=projects">Cancel</a>
+										</div>
 									 
-									<div class="form-group">
-										<label for="textarea" class="control-label col-sm-2">註備</label>
+								 
+							</div>
+							<div class="box-title" style="display:none;">
+								<h3>
+									<i class="fa fa-th-list"></i>GSM 程式的設定</h3>
+							</div>
+							<div class="box-content nopadding" style="display:none;">
+							 		<div class="form-group">
+										<label for="textfield" class="control-label col-sm-2">預設語言</label>
 										<div class="col-sm-10">
-											<textarea name="remark" id="textarea" rows="5" class="form-control" placeholder="<?php echo chkempty($projects_list[0]['remark']); ?>"><?php echo $projects_list[0]['remark']; ?></textarea>
+											 
+											<select name="default_lang" id="default_lang" class='select2-me' style="width:100%">
+												<option value="en" <?php if ($projects_list[0]['default_lang'] == 'en'){ echo 'selected'; } ?> >English</option>
+												<option value="cn" <?php if ($projects_list[0]['default_lang'] == 'cn'){ echo 'selected'; } ?> >中文</option> 
+											</select>
+
 										</div>
 									</div>
-									<div class="form-group">
-										<label for="textarea" class="control-label col-sm-2">圖片</label>
-										<div class="col-sm-10">
-											<div class="fileinput fileinput-new" data-provides="fileinput">
-												<div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;">
-													<img src="photo/project/<?php echo $projects_list[0]['photo']; ?>" >
-												</div>
-												<div>
-													<span class="btn btn-default btn-file">
-														<span class="fileinput-new">Select image</span>
-													<span class="fileinput-exists">Change</span>
-													<input type="file" name="photo">
-													</span>
-													<a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="form-actions col-sm-offset-2 col-sm-10">
-										<input type="hidden" name="key" value="<?php echo htmlspecialchars($_SESSION["key"], ENT_QUOTES);?>">
-										<button type="submit" class="btn btn-primary">Save changes</button>
-										<a type="button" class="btn" href="?page=projects">Cancel</a>
-									</div>
-								</form>
+									
+								 
 							</div>
 						</div>
+						</from>
 					</div>
 				</div>
 				 

@@ -7,16 +7,6 @@ $(function(){
    $('#enable').click(function() {
        $('#user .editable').editable('toggleDisabled');
    });    
-   
-   $('.edits').click(function() {
-	   var str = $(this).attr("id");
-       $('#'+str).editable({
-           url: '/post',
-           type: 'text',
-           name: 'username',
-           title: 'Enter username'
-    	});
-   });  
     
     //editables 
     $('#username').editable({

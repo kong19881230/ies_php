@@ -20,19 +20,27 @@
 		margin-bottom:10px;
 		clear:both;
 
-		&.dataTable-columnfilter{
-			.filter_column{
-				input{
-					margin-bottom: 0;
-					width:100%;
-					padding:4px 0;
-					text-indent:8px;
-				}
-			}
+		&.dataTable-grouping{
+			.group{
+				background: #e6e6e6;
+				border-top:2px solid #ccc;
 
-			.thefilter{
-				th{
-					background: #e1e1e1;
+				&.expanded-group{
+					background:url("../img/expanded-group.jpg") no-repeat left center #e6e6e6;
+					padding-left:33px;
+
+					&:hover{
+						cursor:pointer;
+					}
+				}
+
+				&.collapsed-group{
+					background:url("../img/collapsed-group.jpg") no-repeat left center #e6e6e6;
+					padding-left:33px;
+
+					&:hover{
+						cursor:pointer;
+					}
 				}
 			}
 		}
@@ -105,12 +113,14 @@
 
 	tr{
 		td{
+			vertical-align: middle;
 			.label{
 				margin-right: 3px;
 			}
 		}
 
 		th{
+			vertical-align: middle;
 			background:#eee;
 		}
 	}
@@ -212,4 +222,93 @@
 	.table-fixed-medium{
 		width:200px;
 	}
+}
+
+.table-pagination{
+	float:right;
+	margin-right:5px;
+	margin-top:10px;
+	margin-bottom: 10px;
+
+	&>a{
+		margin-right:5px;
+		background:#eee;
+		padding:3px 8px;
+		color:#333;
+		text-decoration:none;
+		cursor:pointer;
+
+		&.disabled{
+			color:#999;
+
+			&:hover{
+				background: #eee;
+				cursor:default;
+			}
+		}
+
+		&:hover{
+			background:#ddd;
+		}
+	}
+
+	&>span{
+		&>a{
+			padding:3px 8px;
+			margin-right:5px;
+			background: #eee;
+			color:#333;
+			text-decoration:none;
+			cursor:pointer;
+
+			&.active{
+				background:$blue;
+				color:#fff;
+			}
+		}
+	}
+}
+
+.dataTables_filter{
+	.form-control{
+		padding:3px 8px;
+		height:30px;
+		display:inline;
+	}
+}
+
+.dataTable-columnfilter, .usertable{
+	.thefilter{
+		th{
+			background-color: #eee;
+			vertical-align: middle;
+			color:#777;
+		}
+
+		.filter_column{
+			input{
+				margin-bottom: 0;
+				width:100%;
+				padding:4px 0;
+				text-indent:8px;
+				background: #fff;
+				@include box-shadow(none);
+				border:1px solid #aaa;
+
+				&:focus{
+					border:1px solid $blue;
+				}
+			}
+
+			select{
+				margin-bottom: 0;
+				width:100%;
+				background: #fff;
+			}
+		}
+	}
+}
+
+.input-mini select{
+	width:60px;
 }

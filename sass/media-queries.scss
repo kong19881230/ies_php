@@ -10,14 +10,6 @@
 	}
 }
 
-@include breakpoint(1280px){
-	.login{
-		.wrapper{
-			margin-top:100px !important;
-		}
-	}
-}
-
 @include breakpoint(1200px){
 	.stats-overview{
 		&>li{
@@ -28,7 +20,7 @@
 	.form-horizontal{
 		&.form-column{
 			[class*="span"] {
-				border-top:1px solid #bbb;
+				border-top:1px solid #ddd;
 				border-left:0 !important;
 				width:100% !important;
 
@@ -61,7 +53,7 @@
 	}
 }
 
-@include breakpoint(1060px){
+@include breakpoint(1200px){
 	.icon-nav{
 		display: none!important;
 	}
@@ -70,11 +62,6 @@
 @include breakpoint(1024px){
 	#main .page-header .stats{
 		display: none;
-	}
-	.login{
-		.wrapper{
-			margin-top:100px !important;
-		}
 	}
 	
 	.search-form{
@@ -103,7 +90,7 @@
 	}
 }
 
-@include breakpoint(890px){
+@include breakpoint(976px){
 	#navigation{
 		.user{
 			.dropdown{
@@ -119,6 +106,23 @@
 					padding:10px 8px !important;
 				}
 			}
+		}
+	}
+}
+
+@include breakpoint(840px){
+	.mobile-sidebar-toggle{
+		display: block !important;
+	}
+	#navigation{
+		#brand{
+			padding-right:0 !important;
+		}
+		.main-nav{
+			display: none;
+		}
+		.toggle-nav{
+			display: none !important;
 		}
 	}
 }
@@ -148,18 +152,6 @@
 		padding:0 20px;
 	}
 
-	#navigation{
-		#brand{
-			padding-right:0 !important;
-		}
-		.main-nav{
-			display: none;
-		}
-		.toggle-nav{
-			display: none !important;
-		}
-	}
-
 	.form-wizard{
 		&.wizard-vertical{
 			.wizard-steps{
@@ -182,10 +174,6 @@
 		.table-fixed-medium{
 			width:120px !important;
 		}
-	}
-
-	.mobile-sidebar-toggle{
-		display: block !important;
 	}
 
 	.form-wizard{
@@ -295,7 +283,8 @@
 	body.login{
 		.wrapper{
 			width:300px;
-			margin: 50px -150px !important;
+			margin: 20px -150px !important;
+			top:0;
 		}
 	}
 

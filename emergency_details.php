@@ -1,7 +1,7 @@
 <?php if (!defined('EL_ADMIN')) exit('No direct script access allowed'); ?>
 <?php  
  if(isset($_SESSION["key"], $_POST["key"]) && $_SESSION["key"] == $finalkey){
- 	 
+ 	 	echo 111;
 		$finalcycle_types = json_encode($_POST['cycle_types']);
 		$finalmachine_types = json_encode($_POST['machine_types']);
 		//print_r($finalcycle_types);
@@ -14,10 +14,15 @@
 			'reported_by'=> $finalreported_by,
 			'device_model'=> $finaldevice_model,
 			'device_id'=> $finaldevice_id,
+			'device_name'=> $finaldevice_name,
+			'project_name'=> $finalproject_name,
 			'power'=> $finalpower,
 			'machine_type'=> $finalmachine_type,
 			'location'=> $finallocation,
 			'engineer_remarks'=> $finalengineer_remarks,
+			'reported_at'=>  date('Y-m-d H:i',strtotime($finalreported_at)),
+			'start_service_at'=> date('Y-m-d H:i',strtotime($finalstart_service_at)),
+			'end_service_at'=> date('Y-m-d H:i',strtotime($finalend_service_at)),
 			'inspection_found'=> $finalinspection_found,
 			'status_after_service'=> $finalstatus_after_service,
 			'remarks'=> $finalremarks,
@@ -108,7 +113,23 @@ window.location = './?page=emergency_details_view&id=<?php echo $_GET["id"]; ?>'
 				<div class="row">
 					<div class="col-sm-12">
 						<h6>　</h6>
-						
+						<p>
+							<ul class="nav nav-tabs">
+								 
+								
+								<li >
+									<a href="?page=emergency_details_view&id=<?php echo $_GET['id']; ?> ">View</a>
+								</li>
+								<li class="active">
+									<a href="?page=emergency_details&id=<?php echo $_GET['id']; ?> ">Edit</a>
+								</li>
+								<li >
+									<a href="?page=emergency_remark&id=<?php echo $_GET['id']; ?> ">Remark</a>
+								</li>
+								
+							 
+							</ul>
+						</p>
 					</div>
 				</div>
 				
@@ -123,14 +144,15 @@ window.location = './?page=emergency_details_view&id=<?php echo $_GET["id"]; ?>'
 										<td colspan="3" align="center" bgcolor="#ccc"><strong  style="font-size:26px;">SERVICE REPORT (工作報告)</strong></td>
 									</tr>
 									<tr>
-										<td colspan="3"><strong >Customer Name:　　</strong><?php echo $projects_list[0]['name_en']; ?></td>
+										<td colspan="3"><strong >Customer Name (客戶名稱):　　</strong><?php echo $projects_list[0]['name_en']; ?>
+										<input type="text" name='project_name' class="form-control" style="padding-right: 24px; " id="new_value" placeholder="<?php echo $emergency_details_list[0]['project_name']; ?>" value="<?php echo $emergency_details_list[0]['project_name']; ?>"></td>
 									</tr>
 									<tr>
 										<td colspan="3" align="center" bgcolor="#EEEEEE">NATURE OF PROBLEM (問題類別)</td>
 									</tr>
 									<tr>
 										<td colspan="3"> 
-											<strong >Problem Reported:　　</strong><br>
+											<strong >Problem Reported (回報的問題):　　</strong><br>
 											<blockquote><textarea id='show_textarea' name='problem_reported' class="form-control " placeholder="<?php echo $emergency_details_list[0]['problem_reported']; ?>" rows="4"><?php echo $emergency_details_list[0]['problem_reported']; ?></textarea>  
 										</td>
 									</tr>
@@ -148,10 +170,10 @@ window.location = './?page=emergency_details_view&id=<?php echo $_GET["id"]; ?>'
 										<td><strong style="float:left;">Equipment Type (設備種類):　　</strong>
 											<select class="form-control input-sm" style="width:120px; float:left;" name='machine_type'>
 												<?php foreach ($from_type as $key => $value) { ?>
-                                				<option value="<?php echo $key; ?>" <?php if($emergency_details_list[0]['machine_type']==$key){ echo 'selected'; } ?> ><?php echo $key; ?></option>
+                                				<option value="<?php echo $key; ?>" <?php if($emergency_details_list[0]['machine_type']==$key){ echo 'selected'; } ?> ><?php echo $from_type_en[$key]; ?></option>
                                 				<?php } ?>		
                                 			</select>
-										
+											<input type="text" name='device_name' class="form-control" style="padding-right: 24px; " id="new_value" placeholder="<?php echo $emergency_details_list[0]['device_name']; ?>" value="<?php echo $emergency_details_list[0]['device_name']; ?>">
 										 </td>
 									</tr>
 									<tr>
@@ -161,14 +183,14 @@ window.location = './?page=emergency_details_view&id=<?php echo $_GET["id"]; ?>'
 									</tr>
 									<tr>
 										<td><strong >Call Reported by (匯報部門):　　</strong><input type="text" name='reported_by'  class="form-control" style="padding-right: 24px; " id="new_value" placeholder="<?php echo $emergency_details_list[0]['reported_by']; ?>" value="<?php echo $emergency_details_list[0]['reported_by']; ?>"></td>
-										<td><strong >Date (日期):　　</strong></td>
-										<td><strong >Time (時間):　　</strong></td>
+										<td colspan="2"><strong >Date And Time (日期/時間): </strong><input type="text" name='reported_at' class="form-control up_val" style="padding-right: 24px; " id="reported_at" placeholder="<?php echo date_format(date_create($emergency_details_list[0]['reported_at']),'Y-m-d H:i'); ?>" value="<?php echo date_format(date_create($emergency_details_list[0]['reported_at']),'Y-m-d H:i'); ?>"></td>
+										
 									</tr>
 									<tr>
 										<td colspan="3"><strong >Location of Installation (地點):　　</strong><input type="text" name='location'  class="form-control" style="padding-right: 24px; " id="new_value" placeholder="<?php echo $emergency_details_list[0]['location']; ?>" value="<?php echo $emergency_details_list[0]['location']; ?>"> </td>
 									</tr>
 									<tr>
-										<td colspan="3" align="center" bgcolor="#EEEEEE">REPORT DETAILS</td>
+										<td colspan="3" align="center" bgcolor="#EEEEEE">REPORT DETAILS (報告詳細)</td>
 									</tr>
 									<tr>
 										<td colspan="3"><strong >Defects found on inspection (損毀發現):　　</strong>
@@ -196,9 +218,10 @@ window.location = './?page=emergency_details_view&id=<?php echo $_GET["id"]; ?>'
 										<td colspan="3">&nbsp;</td>
 									</tr>
 									<tr>
-										<td><strong >Events:　　</strong></td>
-										<td><strong >Start of Service (開始):　　</strong></td>
-										<td><strong >End of Service (結束):　　</strong></td>
+									<td colspan="2"><strong >Start of Service (開始):</strong><input type="text" name='start_service_at' class="form-control up_val" style="padding-right: 24px; " id="start_service_at" placeholder="<?php echo date_format(date_create($emergency_details_list[0]['start_service_at']),'Y-m-d H:i'); ?>" value="<?php echo date_format(date_create($emergency_details_list[0]['start_service_at']),'Y-m-d H:i'); ?>"></td>
+									<td ><strong >End of Service (結束):</strong><input type="text" name='end_service_at' class="form-control up_val" style="padding-right: 24px; " id="end_service_at" placeholder="<?php echo date_format(date_create($emergency_details_list[0]['end_service_at']),'Y-m-d H:i'); ?>" value="<?php echo date_format(date_create($emergency_details_list[0]['end_service_at']),'Y-m-d H:i'); ?>"></td>
+								
+									   
 									</tr>
 									<tr>
 										<td colspan="3" align="center" bgcolor="#EEEEEE">CUSTOMER (客戶)</td>
@@ -208,19 +231,24 @@ window.location = './?page=emergency_details_view&id=<?php echo $_GET["id"]; ?>'
 										<blockquote><textarea id='show_textarea'  name='remarks' class="form-control " placeholder="<?php echo $emergency_details_list[0]['remarks']; ?>" rows="2"><?php echo $emergency_details_list[0]['remarks']; ?></textarea> </td>
 									</tr>
 									<tr>
-										<td><strong >Name:　　</strong><input type="text" name='contact_name' class="form-control" style="padding-right: 24px; " id="new_value" placeholder="<?php echo $emergency_details_list[0]['contact_name']; ?>" value="<?php echo $emergency_details_list[0]['contact_name']; ?>"></td>
-										<td><strong >Designation:　　</strong><input type="text" name='designation' class="form-control" style="padding-right: 24px; " id="new_value" placeholder="<?php echo $emergency_details_list[0]['designation']; ?>" value="<?php echo $emergency_details_list[0]['designation']; ?>"></td>
-										<td><strong >Phone/Fax:　　</strong><input type="text" name='phone' class="form-control" style="padding-right: 24px; " id="new_value" placeholder="<?php echo $emergency_details_list[0]['phone']; ?>" value="<?php echo $emergency_details_list[0]['phone']; ?>"></td>
+										<td><strong >Name (姓名):　　</strong><input type="text" name='contact_name' class="form-control" style="padding-right: 24px; " id="new_value" placeholder="<?php echo $emergency_details_list[0]['contact_name']; ?>" value="<?php echo $emergency_details_list[0]['contact_name']; ?>"></td>
+										<td><strong >Designation (職位):　　</strong><input type="text" name='designation' class="form-control" style="padding-right: 24px; " id="new_value" placeholder="<?php echo $emergency_details_list[0]['designation']; ?>" value="<?php echo $emergency_details_list[0]['designation']; ?>"></td>
+										<td><strong >Phone (電話):　　</strong><input type="text" name='phone' class="form-control" style="padding-right: 24px; " id="new_value" placeholder="<?php echo $emergency_details_list[0]['phone']; ?>" value="<?php echo $emergency_details_list[0]['phone']; ?>"></td>
 									</tr>
 									<tr>
-										<td colspan="2"><strong >Email:　　</strong><input type="text" name='email'  class="form-control" style="padding-right: 24px; " id="new_value" placeholder="<?php echo $emergency_details_list[0]['email']; ?>" value="<?php echo $emergency_details_list[0]['email']; ?>"></td>
-										<td><strong >Fax:　　</strong><input type="text" name='fax' class="form-control" style="padding-right: 24px; " id="new_value" placeholder="<?php echo $emergency_details_list[0]['fax']; ?>" value="<?php echo $emergency_details_list[0]['fax']; ?>"></td>
+										<td colspan="2"><strong >Email (電郵):　　</strong><input type="text" name='email'  class="form-control" style="padding-right: 24px; " id="new_value" placeholder="<?php echo $emergency_details_list[0]['email']; ?>" value="<?php echo $emergency_details_list[0]['email']; ?>"></td>
+										<td><strong >Fax (傳真):　　</strong><input type="text" name='fax' class="form-control" style="padding-right: 24px; " id="new_value" placeholder="<?php echo $emergency_details_list[0]['fax']; ?>" value="<?php echo $emergency_details_list[0]['fax']; ?>"></td>
+									</tr>
+									<tr>
+										<td><strong >Sign (客戸簽名):</strong>
+										 </td>
+										<td colspan="2"><?php if ($reports_list[0]['signature'] !=''){ ?><img src="upload/<?php echo $reports_list 	[0]['signature']; ?>.png" width="200"><?php }else{ echo '未簽名'; }  ?></td>
 									</tr>
 									<tr>
 										<td colspan="3"><br>
 										<input type="hidden" name="key" value="<?php echo  $_SESSION["key"];?>">
-										<button type="submit" class="btn btn-primary">Save changes</button>
-										<a type="button" class="btn" href="?page=emergency_details_view&id=<?php echo $_GET["id"]; ?>">Cancel</a>
+										<button type="submit" class="btn btn-primary">Save changes (儲存變更)</button>
+										<a type="button" class="btn" href="?page=emergency_details_view&id=<?php echo $_GET["id"]; ?>">Cancel (取消)</a>
 										</td>
 									</tr>
 								</table>

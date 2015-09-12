@@ -11,12 +11,8 @@
 #ui-datepicker-div{
 	@include border-radius(0);
 	display: none;
-
-	&.ui-widget-content{
-		border:0;
-		background: none;
-	}
 }
+
 
 .jq-datepicker{
 	.ui-datepicker{
@@ -26,149 +22,158 @@
 		position: relative;
 		padding:0;
 		@include border-radius(0);
+	}
+}
 
-		.ui-widget-header{
-			background: none;
-			@include border-radius(0);
-			border:0;
-			padding:0;
-		}
+.ui-datepicker{
+	background: #fff;
+	border:2px solid #999;
+	font-size:11px;
+	position: relative;
+	padding:0;
+	@include border-radius(0);
 
-		.ui-datepicker-title{
-			text-align:center;
+	.ui-widget-header{
+		background: none;
+		@include border-radius(0);
+		border:0;
+		padding:0;
+	}
+
+	.ui-datepicker-title{
+		text-align:center;
+		font-weight:bold;
+		margin:12px 0;
+	}
+
+	.ui-datepicker-prev{
+		float:left;
+		display: block;
+		width:15px;
+		height:15px;
+		cursor:pointer;
+		margin-left:2px;
+		background: none!important;
+		border:0 !important;
+		margin-top: 14px;
+		position: relative;
+		@include border-radius(0);
+
+		&.ui-state-hover{
 			font-weight:bold;
-			margin:12px 0;
 		}
 
-		.ui-datepicker-prev{
-			float:left;
+		.ui-icon{
+			display: none;
+		}
+
+		&:hover{
+			background: #ddd !important;
+			&:before{
+				color:#000
+			}
+		}
+
+		&:before{
+			content:"\f104";
+			font-family: "FontAwesome";
 			display: block;
-			width:15px;
-			height:15px;
-			cursor:pointer;
-			margin-left:2px;
-			background: none!important;
-			border:0 !important;
-			margin-top: 14px;
-			position: relative;
-			@include border-radius(0);
+			position: absolute;
+			left:5px;
+			top:-2px;
+			color:#444;
+		}
+	}
 
-			&.ui-state-hover{
-				font-weight:bold;
-			}
+	.ui-datepicker-next{
+		float:right;
+		display: block;
+		width:15px;
+		height:15px;
+		cursor:pointer;
+		background: none!important;
+		border:0 !important;
+		margin-top: 14px;
+		margin-right:2px;
+		position: relative;
 
-			.ui-icon{
-				display: none;
+		@include border-radius(0);
+
+		&.ui-state-hover{
+			font-weight:bold;
+		}
+
+		.ui-icon{
+			display: none;
+		}
+
+		&:hover{
+			background: #ddd !important;
+			&:before{
+				color:#000
 			}
+		}
+
+		&:before{
+			content:"\f105";
+			font-family: "FontAwesome";
+			display: block;
+			position: absolute;
+			right:5px;
+			top:-2px;
+			color:#444;
+		}
+	}
+
+	.ui-datepicker-calendar{
+		margin-bottom: 2px;
+		margin-left: 2px;
+		th,td{
+			text-align:center;
+		}
+		th{
+			color:#777;
+			padding:0;
+
+			span{
+				display: block;
+				padding:0;
+			}
+		}
+		td{
+			padding:0;
 
 			&:hover{
-				background: #ddd !important;
-				&:before{
-					color:#000
+				&>a{
+					background: $blue;
+					text-decoration: none;
+					color:#fff;
 				}
 			}
-
-			&:before{
-				content:"\f104";
-				font-family: "FontAwesome";
-				display: block;
-				position: absolute;
-				left:5px;
-				top:-2px;
-				color:#444;
-			}
-		}
-
-		.ui-datepicker-next{
-			float:right;
-			display: block;
-			width:15px;
-			height:15px;
-			cursor:pointer;
-			background: none!important;
-			border:0 !important;
-			margin-top: 14px;
-			margin-right:2px;
-			position: relative;
-
-			@include border-radius(0);
-
-			&.ui-state-hover{
-				font-weight:bold;
-			}
-
-			.ui-icon{
-				display: none;
-			}
-
-			&:hover{
-				background: #ddd !important;
-				&:before{
-					color:#000
+			&.ui-datepicker-current-day{
+				&>a{
+					background: $blue;
+					color:#fff;
 				}
 			}
-
-			&:before{
-				content:"\f105";
-				font-family: "FontAwesome";
-				display: block;
-				position: absolute;
-				right:5px;
-				top:-2px;
-				color:#444;
-			}
-		}
-
-		.ui-datepicker-calendar{
-			margin-bottom: 2px;
-			margin-left: 2px;
-			th,td{
-				text-align:center;
-			}
-			th{
-				color:#777;
-				padding:0;
-
-				span{
-					display: block;
-					padding:0;
-				}
-			}
-			td{
-				padding:0;
-
+			&.ui-datepicker-other-month{
 				&:hover{
 					&>a{
-						background: $blue;
+						background: lighten($blue, 10%);
 						text-decoration: none;
 						color:#fff;
 					}
 				}
-				&.ui-datepicker-current-day{
-					&>a{
-						background: $blue;
-						color:#fff;
-					}
-				}
-				&.ui-datepicker-other-month{
-					&:hover{
-						&>a{
-							background: lighten($blue, 10%);
-							text-decoration: none;
-							color:#fff;
-						}
-					}
-					&>a{
-						color:#999;
-					}
-				}
 				&>a{
-					padding:3px 5px;
-					display: block;
-					border:0;
-					background: none;
-					text-align:center;
+					color:#999;
 				}
+			}
+			&>a{
+				padding:3px 5px;
+				display: block;
+				border:0;
+				background: none;
+				text-align:center;
 			}
 		}
 	}

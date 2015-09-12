@@ -2,11 +2,12 @@
  		<div id="main">
 			<div class="container-fluid">
 				<div class="page-header">
-					<?php 
+					<?php  $setpershow = 3;
 					$maintain_froms = Sdba::table('maintain_froms');
   					$maintain_froms->where('report_id',$_GET['id']);
   					$total_maintain_froms = $maintain_froms->total(); 
   					$maintain_froms_list = $maintain_froms->get();
+  					
   					
   					
   					$reports = Sdba::table('reports');
@@ -67,6 +68,12 @@
   					//print_r(array_unique($from_type_unique));
   					//echo '</pre>';
   					if (!isset($_GET['ft'])){$_GET['ft']=$from_type_unique[0];}
+  					$mf = Sdba::table('maintain_froms');
+  					$mf->where('report_id',$_GET['id'])->and_where('from_type',$_GET['ft']);;
+  					$total_mf = $mf->total(); 
+  					 
+  					
+  					$item_qty = $total_mf;
   				?>
 				<div class="row">
 					<div class="col-sm-12">
@@ -78,6 +85,7 @@
 							?>
 								<li <?php echo $active; ?>>
 									<a href="?page=maintain_froms&id=<?php echo $_GET['id'].'&ft='.$value; ?>"><?php echo $from_type[$value]; ?></a>
+									
 								</li>
 								 
 							<?php } ?>
@@ -88,9 +96,31 @@
 				<div class="row">
 					<div class="col-sm-12">
 						<div class="box">
-							
+							<div class="pull-right">
+						 
+						<ul class="stats">
+							 
+							<li class='blue'  ><?php  $page = ceil($item_qty / $setpershow); ?>
+								
+								<i class="fa fa-file-pdf-o"></i>
+								<div class="details">
+									<span class="big">PDF</span>
+									<span>
+									<?php for ($z=1; $z<=$page; $z++){ ?>
+									<a href='http://uniquecode.net/job/ms/mpdf56/maintenance_report_all.php?id=<?php echo $_GET['id']; ?>&ft=<?php echo $_GET['ft']; ?>&p=<?php echo $z; ?>' target='blank' style='color:#fff;'><?php echo $z; ?></a> / 
+									<?php } ?>
+									<d style='color:yellow;'> ◇ <?php echo $page; ?> ◇</d> /
+									</span>
+								</div>
+								
+							</li>
+						</ul>
+					</div>
 							<div class="box-content nopadding"> 
-								<table class="table table-hover table-nomargin dataTable dataTable-tools table-bordered dataTable-colvis  ">
+								 
+								
+							 
+								<table class="table  dataTable  table-bordered    ">
 									<thead>
 										<tr>
 											<th>#ID</th>
@@ -133,6 +163,7 @@
 									<?php } ?>
 									</tbody>
 								</table>
+								
 							</div>
 						</div>
 					</div>

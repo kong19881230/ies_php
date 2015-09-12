@@ -68,3 +68,13 @@
 		}
 	}
 }
+
+@media print{
+	#navigation, #left, .breadcrumbs, .page-header, .invoice-payment, .box-title{
+		display: none !important;
+	}
+
+	#main{
+		margin-left: 0;
+	}
+}

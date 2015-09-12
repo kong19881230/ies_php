@@ -251,17 +251,16 @@
             th.html("");
             //th.html(_fnRangeLabelPart(0));
             var sFromId = oTable.attr("id") + '_range_from_' + i;
-            var from = $('<input type="text" class="date_range_filter" id="' + sFromId + '" rel="' + i + '"/>');
+            var from = $('<input type="text" placeholder="From" class="date_range_filter" style="margin-bottom:2px;" id="' + sFromId + '" rel="' + i + '"/>');
             from.datepicker();
             //th.append(from);
             //th.append(_fnRangeLabelPart(1));
             var sToId = oTable.attr("id") + '_range_to_' + i;
-            var to = $('<input type="text" class="date_range_filter" id="' + sToId + '" rel="' + i + '"/>');
+            var to = $('<input type="text" placeholder="To" class="date_range_filter" id="' + sToId + '" rel="' + i + '"/>');
             //th.append(to);
             //th.append(_fnRangeLabelPart(2));
 
             for (ti = 0; ti < aoFragments.length; ti++) {
-
                 if (aoFragments[ti] == properties.sDateFromToken) {
                     th.append(from);
                 } else {
@@ -302,14 +301,15 @@
                 try {
                     if (aData[_fnColumnIndex(index)] == null || aData[_fnColumnIndex(index)] == "")
                         return false;
-                    dCellDate = $.datepicker.parseDate($.datepicker.regional[""].dateFormat, aData[_fnColumnIndex(index)]);
+                    dCellDate = $.datepicker.parseDate(from.datepicker("option", "dateFormat"), aData[_fnColumnIndex(index)]);
                 } catch (ex) {
+                    console.log(ex);
                     return false;
                 }
                 if (dCellDate == null)
                     return false;
 
-
+                
                 if (dStartDate == null && dCellDate <= dEndDate) {
                     return true;
                 }
@@ -332,7 +332,8 @@
 
         }
 
-        function fnCreateColumnSelect(oTable, aData, iColumn, nTh, sLabel, bRegex, oSelected) {
+        function fnCreateColumnSelect(oTable, aData, iColumn, nTh, sLabel, bRegex, oSelected, bCaseSensitive) {
+            bCaseSensitive = (typeof bCaseSensitive !== 'undefined') ? !bCaseSensitive : true;
             if (aData == null)
                 aData = _fnGetColumnValues(oTable.fnSettings(), iColumn, true, false, true);
             var index = iColumn;
@@ -376,16 +377,16 @@
                     $(this).addClass("search_init");
                 }
                 if (bRegex)
-                    oTable.fnFilter($(this).val(), iColumn, bRegex); //Issue 41
+                    oTable.fnFilter($(this).val(), iColumn, bRegex, true, true, bCaseSensitive); //Issue 41
                 else
-                    oTable.fnFilter(unescape($(this).val()), iColumn); //Issue 25
+                    oTable.fnFilter(unescape($(this).val()), iColumn, bRegex, true, true, bCaseSensitive); //Issue 25
                 fnOnFiltered();
             });
             if (currentFilter != null && currentFilter != "")//Issue 81
                 oTable.fnFilter(unescape(currentFilter), iColumn);
         }
 
-        function fnCreateSelect(oTable, aData, bRegex, oSelected) {
+        function fnCreateSelect(oTable, aData, bRegex, oSelected, bCaseSensitive) {
             var oSettings = oTable.fnSettings();
             if (aData == null && oSettings.sAjaxSource != "" && !oSettings.oFeatures.bServerSide) {
                 // Add a function to the draw callback, which will check for the Ajax data having 
@@ -405,7 +406,7 @@
                 });
             }
             // Regardless of the Ajax state, build the select on first pass
-            fnCreateColumnSelect(oTable, aData, _fnColumnIndex(i), th, label, bRegex, oSelected); //Issue 37
+            fnCreateColumnSelect(oTable, aData, _fnColumnIndex(i), th, label, bRegex, oSelected, bCaseSensitive); //Issue 37
 
         }
 
@@ -691,7 +692,7 @@
                         case "select":
                             if (aoColumn.bRegex != true)
                                 aoColumn.bRegex = false;
-                            fnCreateSelect(oTable, aoColumn.values, aoColumn.bRegex, aoColumn.selected);
+                            fnCreateSelect(oTable, aoColumn.values, aoColumn.bRegex, aoColumn.selected, aoColumn.bCaseSensitive);
                             break;
                         case "number-range":
                             fnCreateRangeInput(oTable);

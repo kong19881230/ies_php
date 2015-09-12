@@ -40,13 +40,19 @@
 		case 'emergency_details':
 			require_once('emergency_details.php');
 		break;
-		
+		case 'emergency_remark':
+			require_once('emergency_remark.php');
+		break;
 		case 'emergency_details_view':
 			require_once('emergency_details_view.php');
 		break;
 		
 		case 'ed_print':
 			require_once('ed_print.php');
+		break;
+		
+		case 'erm_print':
+			require_once('erm_print.php');
 		break;
 		
 		case 'photo_report_view':
@@ -56,9 +62,20 @@
 		case 'ed_pdf':
 			require_once('ed_pdf.php');
 		break;
+
+		case 'pdf_erm':
+			require_once('pdf_erm.php');
+		break;
+
 		
 		case 'maintain_remark':
 			require_once('maintain_remark.php');
+		break;
+		case 'maintain_remark_doc':
+			require_once('maintain_remark_doc.php');
+		break;
+		case 'emergency_remark_doc':
+			require_once('emergency_remark_doc.php');
 		break;
 		
 		case 'maintain_ltem_results_backup':
@@ -108,7 +125,9 @@
 		case 'users_add':
 			require_once('users_add.php');
 		break;
-		
+		case 'set_photo_report':
+			require_once('set_photo_report.php');
+		break;
 		case 'user_equipments':
 			require_once('user_equipments.php');
 		break;

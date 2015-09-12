@@ -2,7 +2,7 @@
 	margin-bottom: 0;
 
 	.step{
-		.control-group{
+		.form-group{
 			padding:0 20px;
 		}
 	}
@@ -21,8 +21,8 @@
 			padding:10px 10px;
 			overflow:hidden;
 
-			.control-group{
-				padding:10px;
+			.form-group{
+				padding:15px;
 
 				&:last-child{
 					margin-bottom: 0;

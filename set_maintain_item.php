@@ -67,7 +67,18 @@
 						<div class="box">
 							
 							<div class="box-content nopadding"> 
-							
+									<?php  
+  										$maintain_items = Sdba::table('maintain_items');
+  										$maintain_items->where('from_type',$_GET['ft']);
+  										//$maintain_items->where('report_id',$_GET['id']);
+  										$total_maintain_items = $maintain_items->total();
+  										$maintain_items_list = $maintain_items->get();
+  										$max = $maintain_items->max('index');
+  										
+  										
+  										
+  									 
+  									?>
 								<table class="table table-hover table-nomargin dataTable dataTable-tools table-bordered dataTable-colvis  " id='add_from' style="display:none;">
 									<tbody>
 										<tr>
@@ -75,14 +86,15 @@
 										</tr>
 										<tr>
   											 
-  											<input type='hidden' id="from_type" value='<?php echo $_GET['ft']; ?>' ?>
-											<td width='80px'>INDEX<input type='text' class="form-control up_val" id="index" value='' ?>
+  											<input type='hidden' id="from_type" value='<?php echo $_GET['ft']; ?>' />
+											<td width='80px'>INDEX<input type='text' class="form-control up_val" id="index" value='<?php echo $max+1; ?>' />
 											<br><button class="btn btn-primary" style="margin-right: 10px; min-width:88px; background-color: #368ee0; " id="add_item">新增</button></td>
 											
 											<td width='60%'>中文<input type='text' class="form-control up_val" style="padding-right: 24px; " id="cnname" placeholder="" value='' > 
 											ENG<input type='text' class="form-control up_val" style="padding-right: 24px; " id="enname" placeholder="" value='' >
+											
 											</td>
-											<td width='180px'>TYPE
+											<td width='180px'>Type
 												<select name="typeid" id="typeid" class='select2-me' style="width:100px;">
 												 	<option value=""  >-- 請選選 --</option>
 													<option value="bool" <?php if ($result['type']=='bool'){echo 'selected'; } ?>>選擇式</option>
@@ -91,7 +103,16 @@
 												 	<option value="none" <?php if ($result['type']=='none'){echo 'selected'; } ?>>空値(小標題) </option>
 												</select><br><br>
 												 group
-												 <input type='text' class="form-control up_val" id="from_group" value='' ?>
+												
+												 <select name="from_group" id="from_group"  style="width:100px;">
+												 	<option value=""  >-- 請選選 --</option>
+												 	 <?php 	
+												 	 foreach ($from_group[$_GET['ft']] as $key => $value) {
+  														 echo '<option value="'.$key.'">'. $value.'</option>';
+  														}
+
+  														?>
+												</select>
 											</td>
 											 
 											<td class='trop' style="vertical-align: middle; <?php if ($result['type']!='bool'){ echo 'display:none;'; } ?>" colspan="2" align="center" id="trboolid" > <i class="glyphicon-ok_2"></i> 正常 | △ 待處理 | ◯ 已修復 </td>
@@ -119,30 +140,20 @@
 									<thead>
 										<tr>
 											<th width='30'>#</th>
-											<th width='68%'>Item Name</th>
+											<th width='58%'>Item Name</th>
 											<th width='120'>Format</th>
 											<th colspan="2">Value</th>
-											 
+											<th width='120'>Remark</th> 
 										</tr>
 									</thead>
 									<tbody>
-									<?php  
-  										$maintain_items = Sdba::table('maintain_items');
-  										$maintain_items->where('from_type',$_GET['ft']);
-  										//$maintain_items->where('report_id',$_GET['id']);
-  										$total_maintain_items = $maintain_items->total();
-  										$maintain_items_list = $maintain_items->get();
-  										
-  										
-  										 
-  										
-  									 
-  									?>
+								
   									<?php 
   										for ($i=0; $i<$total_maintain_items;$i++){
   											  $result = json_decode($maintain_items_list[$i]['result_format'],true);
   											  
   									?>
+  										
   										<tr>
   											 
   											<input type='hidden' id="id<?php echo $maintain_items_list[$i]['id']; ?>" value='<?php echo $maintain_items_list[$i]['id']; ?>' ?>
@@ -150,8 +161,16 @@
 											
 											<td ><input type='text' class="form-control up_val" style="padding-right: 24px; " id="cnname<?php echo $maintain_items_list[$i]['id']; ?>" placeholder="<?php echo  $maintain_items_list[$i]['item_name_cn']; ?>" value='<?php echo $maintain_items_list[$i]['item_name_cn']; ?>' > 
 											<input type='text' class="form-control up_val" style="padding-right: 24px; " id="enname<?php echo $maintain_items_list[$i]['id']; ?>" placeholder="<?php echo  $maintain_items_list[$i]['item_name_en']; ?>" value='<?php echo  $maintain_items_list[$i]['item_name_en']; ?>' >
+											<br> 
+											<?php if (count($result['exm_photos']) > 0) { ?>
+											<?php for ($a=0; $a<count($result['exm_photos']); $a++) { ?>
+											<a href="exm_photos/<?php echo $result['exm_photos'][$a]; ?>.jpg" class="colorbox-image cboxElement" rel="group-1" target='blank'>
+												<img src="exm_photos/<?php echo $result['exm_photos'][$a]; ?>.jpg" height="60px" >
+											</a>
+											<?php } ?>
+											<?php } ?>
 											</td>
-											<td>
+											<td>Type
 												<select name="typeid<?php echo $maintain_items_list[$i]['id']; ?>" id="typeid<?php echo $maintain_items_list[$i]['id']; ?>" class='select2-me' style="width:100px;">
 												 
 													<option value="bool" <?php if ($result['type']=='bool'){echo 'selected'; } ?>>選擇式</option>
@@ -159,6 +178,16 @@
 												 	<option value="d_value" <?php if ($result['type']=='d_value'){echo 'selected'; } ?>>雙値式 </option>
 												 	<option value="none" <?php if ($result['type']=='none'){echo 'selected'; } ?>>空値(小標題) </option>
 												</select><br><br>
+												 Group<select name="from_group" id="from_group<?php echo $maintain_items_list[$i]['id']; ?>" class='select3-me' style="width:100px;">
+												 	<option value=""  >-- 請選選 --</option>
+												 	 <?php 	
+												 	 foreach ($from_group[$_GET['ft']] as $key => $value) {
+  														 echo '<option value="'.$key.'" '.(($maintain_items_list[$i]['group']==$key)?'selected':'').'>'. $value.'</option>';
+  														}
+
+  														?>
+												</select><br><br>
+												Index<input type='text' class="form-control up_val" id="iindex<?php echo $maintain_items_list[$i]['id']; ?>" placeholder="<?php echo  $maintain_items_list[$i]['index']; ?>" value='<?php echo $maintain_items_list[$i]['index']; ?>' /><br><br>
 												 <button class="btn btn-primary save" style="margin-right: 10px; min-width:88px; background-color: #368ee0; display:none;" id="save<?php echo $maintain_items_list[$i]['id']; ?>">保存</button>
 											</td>
 											 
@@ -176,9 +205,12 @@
 												Y 參考值<input type='text' class="form-control up_val" style="padding-right: 24px; " id="d2hint<?php echo $maintain_items_list[$i]['id']; ?>" placeholder="<?php echo $result['hint'][1]; ?>" value='<?php echo $result['hint'][1]; ?>' >
 											</td>
 											<td class='trop<?php echo $maintain_items_list[$i]['id']; ?>'  style="vertical-align: middle; <?php if ($result['type']!='none'){ echo 'display:none;'; } ?>" colspan="2" align="center" id="trnoneid<?php echo $maintain_items_list[$i]['id']; ?>"> N/A </td>
-											 
+								
+											 <td >
+											<textarea rows="4" class="form-control up_val" style="padding-right: 24px; " id="remark<?php echo $maintain_items_list[$i]['id']; ?>" placeholder="<?php echo  $maintain_items_list[$i]['remark']; ?>"><?php echo  $maintain_items_list[$i]['remark']; ?></textarea>
 											
-											 
+											
+											</td>
 											 
 										</tr>
 									<?php }   ?>
@@ -233,7 +265,12 @@
      		 $( "#save"+id ).show();
      		 
 		});
-		
+		$(".select3-me").change(function() {
+			var id= $(this).attr('id');
+     		id =  id.slice(10);
+     		$( "#save"+id ).show();
+
+		});
 		$( ".up_val" ).keyup(function() {
      		var id= $(this).attr('id');
      		id =  id.slice(6);
@@ -244,7 +281,7 @@
      			$( "#save"+id ).show();
   			}
 		});
-		 
+		
 		//确认删除
 		$('.save').click(function(){
 			var id= $(this).attr('id');
@@ -252,21 +289,22 @@
      		var item_name_cn = $( "#cnname"+id ).val();
      		var item_name_en = $( "#enname"+id ).val();
      		var type = $( "#typeid"+id ).val();
-     		
+     		var group = $( "#from_group"+id ).val();
      		var MM_update = "update_maintain_items";
-     		
+     		var remark = $( "#remark"+id ).val();
+     		var index= $("#iindex"+id).val();
      		if (type == 's_value'){
      			var s1unit = $( "#s1unit"+id ).val();
      			var s1hint = $( "#s1hint"+id ).val();
-     			var dataString =  'id='+ id +'&item_name_cn='+ item_name_cn +'&item_name_en='+ item_name_en +'&type='+ type +'&MM_update='+ MM_update +'&s1hint='+ s1hint +'&s1unit='+ s1unit ;	
+     			var dataString =  'id='+ id +'&item_name_cn='+ item_name_cn +'&remark='+ remark+'&index='+ index+'&group='+ group+'&item_name_en='+ item_name_en +'&type='+ type +'&MM_update='+ MM_update +'&s1hint='+ s1hint +'&s1unit='+ s1unit ;	
      		}else if (type == 'd_value'){
      			var d1unit = $( "#d1unit"+id ).val();
      			var d1hint = $( "#d1hint"+id ).val();
      			var d2unit = $( "#d2unit"+id ).val();
      			var d2hint = $( "#d2hint"+id ).val();
-     			var dataString =  'id='+ id +'&item_name_cn='+ item_name_cn +'&item_name_en='+ item_name_en +'&type='+ type +'&MM_update='+ MM_update +'&d2hint='+ d2hint +'&d2unit='+ d2unit +'&d1hint='+ d2hint +'&d1unit='+ d1unit ;	
+     			var dataString =  'id='+ id +'&item_name_cn='+ item_name_cn +'&remark='+ remark+'&index='+ index+'&group='+ group+'&item_name_en='+ item_name_en +'&type='+ type +'&MM_update='+ MM_update +'&d2hint='+ d2hint +'&d2unit='+ d2unit +'&d1hint='+ d2hint +'&d1unit='+ d1unit ;	
      		}else{
-     			var dataString =  'id='+ id +'&item_name_cn='+ item_name_cn +'&item_name_en='+ item_name_en +'&type='+ type +'&MM_update='+ MM_update ;	
+     			var dataString =  'id='+ id +'&item_name_cn='+ item_name_cn +'&remark='+ remark+'&index='+ index+'&group='+ group+'&item_name_en='+ item_name_en +'&type='+ type +'&MM_update='+ MM_update ;	
      		
      		}
      		

@@ -66,9 +66,15 @@ if (!isset($_GET['page'])) {
   				$reports ->where('id', $maintain_froms_list[0]['report_id']);
   				$reports_list = $reports->get();
 				?>
+		<table width="100%" style="border-bottom: 1px solid #000000; vertical-align: bottom; font-family:
+serif; font-size: 9pt; color: #000088;"><tr>
+ 
+<td width="60%" ><img src="img/ies_logo.png" width="600px" /></td>
+<td width="40%" style="text-align: right;"><span style="font-weight: bold;"> </span></td>
+</tr></table>
 		<table width="850" border="0" cellpadding="0" cellspacing="0"  >
 			<tr>
-                <td colspan="4" style="font-size: 36px; font-weight: bold; text-align: center; line-height: 44px;"><?php  $type=$maintain_froms_list[0]['from_type']; echo $maintain_froms_list[0]['from_type'].' System ('.$from_type[$type].'系統)'; ?></td>
+                <td colspan="4" style="font-size: 36px; font-weight: bold; text-align: center; line-height: 44px;"><?php  $type=$maintain_froms_list[0]['from_type']; echo $from_type_en[$type].' System ('.$from_type[$type].'系統)'; ?></td>
           </tr>
 </table>
 				<div class="row">
@@ -104,7 +110,7 @@ if (!isset($_GET['page'])) {
   									?>
   									
   										<tr >
-											<td style="vertical-align: middle;"align="center"><?php echo $maintain_item_results_list[$i]['index']; ?></td>
+											<td style="vertical-align: middle;"align="center"><?php echo $i+1; ?></td>
 											<td style="vertical-align: middle;" <?php if ($result['type']=='none'){echo 'colspan="3" align="center"';} ?>><?php echo $maintain_item_results_list[$i]['item_name_cn']; ?><br><?php echo $maintain_item_results_list[$i]['item_name_en']; ?></td>
 											<input name="tdresult" id="new<?php echo $maintain_item_results_list[$i]['id']; ?>result" type="hidden" value="<?php echo $maintain_item_results_list[$i]['result']; ?>">
 											<?php 
@@ -192,7 +198,11 @@ if (!isset($_GET['page'])) {
     檢查日期及時間</td>
     <td><?php echo $maintain_froms_list[0]['inspector_datetime']; ?></td>
   </tr>
-
+	<tr>
+		<td>Sign:<br />
+		客戸簽名 </td>
+		<td colspan="4"><?php if ($maintain_froms_list[0]['signature'] !=''){ ?><img src="upload/<?php echo $maintain_froms_list[0]['signature']; ?>.png" width="200"><?php } ?></td>
+	</tr>
 </table>
 		</div>
 	</div>

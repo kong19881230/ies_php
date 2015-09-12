@@ -1,6 +1,6 @@
 .highlight-toolbar{
 	@include pie-clearfix;
-	padding:0 10px;
+	padding:10px;
 	.dropdown{
 		.btn{
 			.caret{
@@ -19,6 +19,58 @@
 }
 
 .box{
+	&.box-condensed{
+		.box-title{
+			padding:2px 0 2px 4px;
+
+			h3{
+				font-size:18px;
+			}
+
+			.actions{
+				margin-top: 1px;
+
+				.btn>i{
+					font-size:12px;
+				}
+
+				.btn{
+					padding:4px 8px;
+				}
+			}
+		}
+
+		.box-content{
+			padding:10px;
+		}
+	}
+
+	&.box-small{
+		.box-title{
+			padding:0 0 0 3px;
+
+			h3{
+				font-size:16px;
+			}
+
+			.actions{
+				margin-top: 3px;
+
+				.btn>i{
+					font-size:11px;
+				}
+
+				.btn{
+					padding:2px 7px;
+				}
+			}
+		}
+
+		.box-content{
+			padding:5px;
+		}
+	}
+
 	&.box-color{
 
 		.box-title{
@@ -133,7 +185,7 @@
 			font-size:20px;
 
 			i{
-				margin:0 10px;
+				margin:0 10px 0 5px;
 			}
 		}
 

@@ -76,6 +76,8 @@ if (!isset($_GET['page'])) {
 	<link rel="stylesheet" href="css/style.css">
 	<!-- Color CSS -->
 	<link rel="stylesheet" href="css/themes.css">
+	<!-- colorbox -->
+	<link rel="stylesheet" href="css/plugins/colorbox/colorbox.css">
 
 	<!-- jQuery -->
 	<script src="js/jquery.min.js"></script>
@@ -147,7 +149,8 @@ if (!isset($_GET['page'])) {
 	<script src="js/plugins/complexify/jquery.complexify.min.js"></script>
 	<!-- Mockjax -->
 	<script src="js/plugins/mockjax/jquery.mockjax.js"></script>
-	
+	<!-- colorbox -->
+	<script src="js/plugins/colorbox/jquery.colorbox-min.js"></script>
 	<!-- XEditable -->
 	<link rel="stylesheet" href="css/plugins/xeditable/bootstrap-editable.css">
 	<!-- XEditable -->
@@ -274,9 +277,7 @@ if (!isset($_GET['page'])) {
 					<li>
 						<a href="?page=projects">Projects</a>
 					</li>
-					<li>
-						<a href="?page=machines">Machines</a>
-					</li>
+					
 				</ul>
 			</div>
 			<div class="subnav">
@@ -290,6 +291,9 @@ if (!isset($_GET['page'])) {
 					 
 					 <li>
 						<a href="?page=set_maintain_item">Report item setting</a>
+					</li>
+					 <li>
+						<a href="?page=set_photo_report">Photo description setting</a>
 					</li>
 					<li>
 						<a href="?page=user">Users</a>

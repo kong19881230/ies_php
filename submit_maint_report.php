@@ -1,5 +1,6 @@
 <?php include('sdba/sdba.php'); ?>
-<?php
+
+<?php date_default_timezone_set("Asia/Hong_Kong");
 // クライアントからのPOSTを受け取る
 
 
@@ -14,11 +15,12 @@ if(isset($_POST['report'])) {
     $froms= $report->froms;
     $report_service = Sdba::table('reports');
     $from_service = Sdba::table('maintain_froms');
+    $audit_log_service = Sdba::table('audit_logs');
     $photos_service = Sdba::table('photos');
     $from_item_service = Sdba::table('maintain_item_results');
     //$report->customer_id
     $report_data = array('name_cn'=>$report->name_cn,'name_en'=>$report->name_en,'type'=>$report->type,'project_id'=>$report->project_id,
-      'cycle_type'=>$report->cycle_type,'created_by'=>$report->created_by,'created_at'=>$report->created_at,'updated_at'=>$report->updated_at);
+      'cycle_type'=>$report->cycle_type,'created_by'=>$report->technican,'created_at'=>$report->created_at,'updated_at'=>$report->updated_at);
  	  if(!is_null($report->id)){
       $report_data['id']=$report->id;
     }
@@ -31,12 +33,26 @@ if(isset($_POST['report'])) {
      foreach ($froms as &$from) {
       #'device_photo_id'=>$from->device_photo_id
       $from_data = array('id'=>$from->id ,'from_type'=>$from->from_type,'device_id'=>$from->device_id,'device_model'=>$from->device_model,
-      'maintenance_technician'=>$report->technican,'signature'=>$from->signature,'name_cn'=>$from->name_cn,'name_en'=>$from->name_en,'report_id'=>$report->id,
+      'maintenance_technician'=>$from->technican,'signature'=>$from->signature,'name_cn'=>$from->name_cn,'name_en'=>$from->name_en,'report_id'=>$report->id,
       'maintenance_datetime'=>$from->created_at,'remark'=>json_encode($from->remark));
       if(!is_null($from->sign_at)){
         $from_data['inspector_datetime']=$from->sign_at;
       }
       $from_service->set($from_data);
+      if(!is_null($from->note)){
+              $audit_log_data = array('type_id'=>$from->id,'type'=>'from','update_at'=>date('Y-m-d H:i:s'),'note'=>$from->note);
+              
+              if(!is_null($from->note_id)){
+                $audit_log_data['id']=$from->note_id;
+              }
+             
+              $audit_log_service->set($audit_log_data);
+              
+               if(is_null($from->note_id)){
+                  $from->note_id = $audit_log_service->insert_id();
+              }
+      }
+
    		$items =$from->items;
    		foreach ($items as &$item) {
 
@@ -47,12 +63,12 @@ if(isset($_POST['report'])) {
 
 
 
-         if(!is_null($item->id)){
-            $item_data['id']=$item->id;
+         if(!is_null($item->real_id)){
+            $item_data['id']=$item->real_id;
          }
          $from_item_service->set($item_data);
-         if(is_null($item->id)){
-            $item->id = $from_item_service->insert_id();
+         if(is_null($item->real_id)){
+            $item->real_id = $from_item_service->insert_id();
          }
          
    			 $lastItem=$item;

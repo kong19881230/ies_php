@@ -31,15 +31,66 @@ $reports_cycles_en = array(
 
 //類型
 $from_type = array(
-    'boiler' => "熱水煱爐",
-    'sboiler'=>"蒸氣煱爐",
+    'boiler' => "熱水鍋爐",
+    'sboiler'=>"蒸氣鍋爐",
+    'oboiler'=>"燃油熱水鍋爐",
     'heat' => "熱交換器",
-    'chimney' => "煙通系統",
-    'cpump'=>"熱煤循環泵",
+    'chimney' => "煙囪",
+    'cpump'=>"循環泵",
     'calorifier'=>"熱水加熱器",
-    'opump'=>"供油泵"
+    'opump'=>"供油泵",
+    'bpump'=>"加壓泵組",
+    'softener'=>"軟水器"
 );
-
+ 
+$from_group["heat"]=array("controller"=>"控制器",
+                          "pump"=>"水泵",
+                          "heat"=>"換熱器");
+$from_group["boiler"]=array("burner"=>"燃燒器",
+                          "boiler"=>"鍋爐",
+                          "controller"=>"控制器",
+                          "chimney"=>"煙囪");
+$from_group["sboiler"]=array("burner"=>"燃燒器",
+                          "boiler"=>"鍋爐",
+                          "controller"=>"控制器",
+                          "chimney"=>"煙囪");
+$from_group["oboiler"]=array("burner"=>"燃燒器",
+                          "boiler"=>"鍋爐",
+                          "controller"=>"控制器",
+                          "chimney"=>"煙囪");
+$from_group["chimney"]=array("controller"=>"控制器",
+                          "chimney"=>"煙囪");
+$from_group["cpump"]=array("controller"=>"控制器");
+$from_group["opump"]=array("controller"=>"控制器");
+$from_group["calorifier"]=array("controller"=>"控制器");
+$from_group["bpump"]=array("controller"=>"控制器");
+$from_group["softener"]=array("controller"=>"控制器");
+//類型
+$from_type_en = array(
+    'boiler' => "Hot Water Boiler",
+    'sboiler'=>"Steam Boiler",
+    'oboiler'=>"Hot Water Boiler",
+    'heat' => "Heat Transfer Compact Unit",
+    'chimney' => "Chimney System",
+    'cpump'=>"Circulation Pump",
+    'calorifier'=>"Calorifier",
+    'opump'=>"Oil Pump",
+    'bpump'=>"Booster Pump Set",
+    'softener'=>"Water softener"
+);
+$from_type_short = array(
+    'boiler' => "b",
+    'sboiler'=>"s",
+    'oboiler'=>"o",
+    'heat' => "h",
+    'chimney' => "c",
+    'cpump'=>"cp",
+    'calorifier'=>"ca",
+    'opump'=>"op",
+    'bpump'=>"bp",
+    'softener'=>"so"
+);
+$photo_types = array("boiler", "oboiler", "sboiler", "heat", "chimney","cpump","calorifier","bpump");
 //空值表示
 function chkempty($A){
   if (!isset($A)){
@@ -66,8 +117,18 @@ $photos->like('id', $id);
 //$maintain_item_results->sort_by('maintain_from_id');
 $total_photos = $photos->total();
 $photos_list = $photos->get();
+$fileexists = 0;
+//print_r($photos_list);
+for ($i=0; $i<$total_photos; $i++){
+$filepath = './upload/'.$photos_list[$i]['remote'];
+if( file_exists($filepath) ){
+	$fileexists ++;
+}
+//echo $fileexists ;
 
-return $total_photos;
+}
+
+return $fileexists;
 }
 
 function is_photo($id){
@@ -78,6 +139,8 @@ $photos->where('id', $id);
 //$maintain_item_results->sort_by('maintain_from_id');
 $total_photos = $photos->total();
 $photos_list = $photos->get();
+
+
 
 return $total_photos;
 }
@@ -100,10 +163,15 @@ $updated_at = strip_tags(trim($_POST["updated_at"]));
 //$machine_types = strip_tags(trim($_POST["machine_types"]));
 $name_cn = strip_tags(trim($_POST["name_cn"]));
 $name_en = strip_tags(trim($_POST["name_en"]));
+$com_method = strip_tags(trim($_POST["com_method"]));
+
+$note = strip_tags(trim($_POST["note"]));
 
 
 $problem_reported = strip_tags(trim($_POST["problem_reported"]));
 $is_system_down = strip_tags(trim($_POST["is_system_down"]));
+$project_name = strip_tags(trim($_POST["project_name"]));
+$device_name = strip_tags(trim($_POST["device_name"]));
 $reported_by = strip_tags(trim($_POST["reported_by"]));
 $device_model = strip_tags(trim($_POST["device_model"]));
 $device_id = strip_tags(trim($_POST["device_id"]));
@@ -111,6 +179,9 @@ $power = strip_tags(trim($_POST["power"]));
 $machine_type = strip_tags(trim($_POST["machine_type"]));
 $location = strip_tags(trim($_POST["location"]));
 $engineer_remarks = strip_tags(trim($_POST["engineer_remarks"]));
+$reported_at = strip_tags(trim($_POST["reported_at"]));
+$start_service_at = strip_tags(trim($_POST["start_service_at"]));
+$end_service_at = strip_tags(trim($_POST["end_service_at"]));
 $inspection_found = strip_tags(trim($_POST["inspection_found"]));
 $status_after_service = strip_tags(trim($_POST["status_after_service"]));
 $remarks = strip_tags(trim($_POST["remarks"]));
@@ -120,6 +191,8 @@ $signature = strip_tags(trim($_POST["signature"]));
 $phone = strip_tags(trim($_POST["phone"]));
 $fax = strip_tags(trim($_POST["fax"]));
 $email = strip_tags(trim($_POST["email"]));
+$default_lang = strip_tags(trim($_POST["default_lang"]));
+$con_count = strip_tags(trim($_POST["con_count"]));
 
 $name = strip_tags(trim($_POST["name"]));
 $type = strip_tags(trim($_POST["type"]));
@@ -130,9 +203,14 @@ $machine_id = strip_tags(trim($_POST["machine_id"]));
 $phone_num = strip_tags(trim($_POST["phone_num"]));
 $ref_no = strip_tags(trim($_POST["ref_no"]));
 $photo = strip_tags(trim($_POST["photo"]));
+$region = strip_tags(trim($_POST["region"]));
 
+$finalnote = htmlspecialchars($note, ENT_QUOTES, 'UTF-8');
+$finalcom_method = htmlspecialchars($com_method, ENT_QUOTES, 'UTF-8');
 $finalproblem_reported = htmlspecialchars($problem_reported, ENT_QUOTES, 'UTF-8');
 $finalis_system_down = htmlspecialchars($is_system_down, ENT_QUOTES, 'UTF-8');
+$finalproject_name = htmlspecialchars($project_name, ENT_QUOTES, 'UTF-8');
+$finaldevice_name = htmlspecialchars($device_name, ENT_QUOTES, 'UTF-8');
 $finalreported_by = htmlspecialchars($reported_by, ENT_QUOTES, 'UTF-8');
 $finaldevice_model = htmlspecialchars($device_model, ENT_QUOTES, 'UTF-8');
 $finaldevice_id = htmlspecialchars($device_id, ENT_QUOTES, 'UTF-8');
@@ -140,6 +218,9 @@ $finalpower = htmlspecialchars($power, ENT_QUOTES, 'UTF-8');
 $finalmachine_type = htmlspecialchars($machine_type, ENT_QUOTES, 'UTF-8');
 $finallocation = htmlspecialchars($location, ENT_QUOTES, 'UTF-8');
 $finalengineer_remarks = htmlspecialchars($engineer_remarks, ENT_QUOTES, 'UTF-8');
+$finalreported_at = htmlspecialchars($reported_at, ENT_QUOTES, 'UTF-8');
+$finalstart_service_at = htmlspecialchars($start_service_at, ENT_QUOTES, 'UTF-8');
+$finalend_service_at = htmlspecialchars($end_service_at, ENT_QUOTES, 'UTF-8');
 $finalinspection_found = htmlspecialchars($inspection_found, ENT_QUOTES, 'UTF-8');
 $finalstatus_after_service = htmlspecialchars($status_after_service, ENT_QUOTES, 'UTF-8');
 $finalremarks = htmlspecialchars($remarks, ENT_QUOTES, 'UTF-8');
@@ -149,6 +230,10 @@ $finalsignature = htmlspecialchars($signature, ENT_QUOTES, 'UTF-8');
 $finalphone = htmlspecialchars($phone, ENT_QUOTES, 'UTF-8');
 $finalfax = htmlspecialchars($fax, ENT_QUOTES, 'UTF-8');
 $finalemail = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
+$finaldefault_lang = htmlspecialchars($default_lang, ENT_QUOTES, 'UTF-8');
+$finalcon_count = htmlspecialchars($con_count, ENT_QUOTES, 'UTF-8');
+$finalregion = htmlspecialchars($region, ENT_QUOTES, 'UTF-8');
+
 
 $finalname = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
 $finaltype = htmlspecialchars($type, ENT_QUOTES, 'UTF-8');
@@ -159,8 +244,6 @@ $finalmachine_id = htmlspecialchars($machine_id, ENT_QUOTES, 'UTF-8');
 $finalphone_num = htmlspecialchars($phone_num, ENT_QUOTES, 'UTF-8');
 $finalref_no = htmlspecialchars($ref_no, ENT_QUOTES, 'UTF-8');
 $finalphoto = htmlspecialchars($photo, ENT_QUOTES, 'UTF-8');
-$finaltype = htmlspecialchars($type, ENT_QUOTES, 'UTF-8');
-$finalmodel_id = htmlspecialchars($model_id, ENT_QUOTES, 'UTF-8');
 
 $finalkey = htmlspecialchars($key, ENT_QUOTES, 'UTF-8');
 $finalseq = htmlspecialchars($seq, ENT_QUOTES, 'UTF-8');
@@ -191,10 +274,12 @@ function squarenailByGd($dir, $file, $sizex, $sizey,$fname) {
         $newName =  $fname; //新檔名
         
         // 如果該縮圖存在則直接出圖
+        /*
         if (file_exists($thumbDir . $newName)) {
             echo '<img src="' . $thumbDir . $newName . '" />';
             return;
         }
+        */
         
         switch ($ext) {
             case 'jpg':

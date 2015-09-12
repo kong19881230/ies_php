@@ -34,12 +34,13 @@
 								</div>
 								</a>
 							</li>
-							<li class='lightred' style="display:none;">
-								<a href='ed_pdf.php?id=<?php echo $_GET['id']; ?>' target='blank'>
-								<i class="fa fa-print"></i>
+							
+							<li class='green'  >
+								<a href='http://uniquecode.net/job/ms/mpdf56/service_report.php?id=<?php echo $_GET['id']; ?>' target='blank'>
+								<i class="fa fa-file-pdf-o"></i>
 								<div class="details">
 									<span class="big">PDF</span>
-									<span>移至列印頁面</span>
+									<span>以PDF保存</span>
 								</div>
 								</a>
 							</li>
@@ -76,7 +77,23 @@
 				<div class="row">
 					<div class="col-sm-12">
 						<h6>　</h6>
-						
+						<p>
+							<ul class="nav nav-tabs">
+								 
+								
+								<li class="active">
+									<a href="?page=emergency_details_view&id=<?php echo $_GET['id']; ?> ">View</a>
+								</li>
+								<li>
+									<a href="?page=emergency_details&id=<?php echo $_GET['id']; ?> ">Edit</a>
+								</li>
+								<li >
+									<a href="?page=emergency_remark&id=<?php echo $_GET['id']; ?> ">Remark</a>
+								</li>
+								
+							 
+							</ul>
+						</p>
 					</div>
 				</div>
 				
@@ -90,14 +107,14 @@
 										<td colspan="3" align="center" bgcolor="#ccc"><strong  style="font-size:26px;">SERVICE REPORT (工作報告)</strong></td>
 									</tr>
 									<tr>
-										<td colspan="3"><strong >Customer Name:　　</strong><?php echo $projects_list[0]['name_en']; ?></td>
+										<td colspan="3"><strong >Customer Name (客戶名稱):　　</strong><?php if( $emergency_details_list[0]['project_name']==""){ echo $projects_list[0]['name_en'];}else{ echo $emergency_details_list[0]['project_name'];} ?></td>
 									</tr>
 									<tr>
 										<td colspan="3" align="center" bgcolor="#EEEEEE">NATURE OF PROBLEM (問題類別)</td>
 									</tr>
 									<tr>
 										<td colspan="3"> 
-											<strong >Problem Reported:　　</strong><br>
+											<strong >Problem Reported (回報的問題):　　</strong><br>
 											<blockquote><?php echo $emergency_details_list[0]['problem_reported']; ?> 
 										</td>
 									</tr>
@@ -111,7 +128,7 @@
 											<?php } ?>
 											<em style="font-size:12px;padding-top: 6px; padding-right: 26px; float:right;">*Please circle</em>
 										</td>
-										<td><strong >Equipment Type (設備種類):　　</strong><?php echo $emergency_details_list[0]['machine_type']; ?> </td>
+										<td><strong >Equipment Type (設備種類):　　</strong><?php if( $emergency_details_list[0]['device_name']==""){ echo $from_type_en[$emergency_details_list[0]['machine_type']];}else{ echo $emergency_details_list[0]['device_name'];} ?> </td>
 									</tr>
 									<tr>
 										<td width='33%'><strong >Power (功率):　　</strong><?php echo $emergency_details_list[0]['power']; ?> </td>
@@ -120,14 +137,14 @@
 									</tr>
 									<tr>
 										<td><strong >Call Reported by (匯報部門):　　</strong><?php echo $emergency_details_list[0]['reported_by']; ?></td>
-										<td><strong >Date (日期):　　</strong></td>
-										<td><strong >Time (時間):　　</strong></td>
+										<td><strong >Date (日期):</strong>　<?php echo date_format(date_create($emergency_details_list[0]['reported_at']),'Y-m-d'); ?>　</td>
+										<td><strong >Time (時間):</strong>　<?php echo date_format(date_create($emergency_details_list[0]['reported_at']),'H:i'); ?>　</td>
 									</tr>
 									<tr>
 										<td colspan="3"><strong >Location of Installation (地點):　　</strong><?php echo $emergency_details_list[0]['location']; ?> </td>
 									</tr>
 									<tr>
-										<td colspan="3" align="center" bgcolor="#EEEEEE">REPORT DETAILS</td>
+										<td colspan="3" align="center" bgcolor="#EEEEEE">REPORT DETAILS  (報告詳細)	</td>
 									</tr>
 									<tr>
 										<td colspan="3"><strong >Defects found on inspection (損毀發現):　　</strong>
@@ -158,29 +175,34 @@
 										<td colspan="3">&nbsp;</td>
 									</tr>
 									<tr>
-										<td><strong >Events:　　</strong></td>
-										<td><strong >Start of Service (開始):　　</strong></td>
-										<td><strong >End of Service (結束):　　</strong></td>
+									    <td><strong >Date (日期):</strong>　<?php echo date_format(date_create($emergency_details_list[0]['start_service_at']),'Y-m-d'); ?>　</td> 
+										<td ><strong >Start of Service (開始):　　</strong> <?php echo date_format(date_create($emergency_details_list[0]['start_service_at']),'H:i');?></td>
+										<td ><strong >End of Service (結束):　　</strong> <?php echo date_format(date_create($emergency_details_list[0]['end_service_at']),'H:i');?></td>
 									</tr>
 									<tr>
 										<td colspan="3" align="center" bgcolor="#EEEEEE">CUSTOMER (客戶)</td>
 									</tr>
 									<tr>
 										<td colspan="3"><strong >Remarks (備註):　　</strong>
-										<blockquote><?php echo $emergency_details_list[0]['remarks']; ?> </td>
+										<blockquote><?php if(isset($emergency_details_list[0]['remarks'])&&$emergency_details_list[0]['remarks']!='""'){  echo $emergency_details_list[0]['remarks'];} ?> </td>
 									</tr>
 									<tr>
-										<td><strong >Name:　　</strong><?php echo $emergency_details_list[0]['contact_name']; ?></td>
-										<td><strong >Designation:　　</strong><?php echo $emergency_details_list[0]['designation']; ?></td>
-										<td><strong >Phone/Fax:　　</strong><?php echo $emergency_details_list[0]['phone']; ?> / <?php echo $emergency_details_list[0]['fax']; ?></td>
+										<td><strong >Name (姓名):　　</strong><?php echo $emergency_details_list[0]['contact_name']; ?></td>
+										<td><strong >Designation (職位):　　</strong><?php echo $emergency_details_list[0]['designation']; ?></td>
+										<td><strong >Phone/Fax (電話/傳真):　　</strong><?php echo $emergency_details_list[0]['phone']; ?> <?php if($emergency_details_list[0]['phone']!=""&&$emergency_details_list[0]['fax']!=""){echo "/";} ?> <?php echo $emergency_details_list[0]['fax']; ?></td>
 									</tr>
 									<tr>
-										<td colspan="3"><strong >Email:　　</strong><?php echo $emergency_details_list[0]['email']; ?></td>
+										<td colspan="3"><strong >Email (電郵):　　</strong><?php echo $emergency_details_list[0]['email']; ?></td>
+									</tr>
+									<tr>
+										<td><strong >Sign (客戸簽名):</strong>
+										 </td>
+										<td colspan="2"><?php if ($reports_list[0]['signature'] !=''){ ?><img src="upload/<?php echo $reports_list 	[0]['signature']; ?>.png" width="200"><?php }else{ echo '未簽名'; }  ?></td>
 									</tr>
 									<tr>
 										<td colspan="3"><br>
 										<input type="hidden" name="key" value="<?php echo htmlspecialchars($_SESSION["key"], ENT_QUOTES);?>">
-										<a href='?page=emergency_details&id=<?php echo $_GET["id"]; ?>' class="btn btn-primary" style="width:120px;">Edit</a>
+										<a href='?page=emergency_details&id=<?php echo $_GET["id"]; ?>' class="btn btn-primary" style="width:120px;">Edit (編輯)</a>
 										 
 										</td>
 									</tr>

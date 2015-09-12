@@ -82,6 +82,8 @@
 window.location = './?page=user';
 </script>
 		<?php	}							 
+ }else{
+ 	$_SESSION["key"] = md5(uniqid().mt_rand());		
  }
  ?>
  		<div id="main">
@@ -222,6 +224,17 @@ window.location = './?page=user';
 									<div class="form-group">
 										<label for="text" class="control-label col-sm-2">Project</label>
 										<div class="col-sm-10">
+											<div class="input-group input-group">
+												<span class="input-group-addon">
+													<i class="fa fa-search"></i>
+												</span>
+												<input type="text" placeholder="Search here..." class="form-control" id='search_project'>
+												<div class="input-group-btn">
+													<button class="btn" type="button" id='showall'>清除</button>
+													
+													 
+												</div>
+											</div><br><input type="checkbox" id="selecctall"/> Selecct All<br><hr>
 											 <?php  
   												$projects = Sdba::table('projects');
   												$total_projects = $projects->total();
@@ -242,7 +255,7 @@ window.location = './?page=user';
 														}
 													}
 											?>
-											<div class="check-demo-col">
+											<div class="check-demo-col project" data-skin="<?php echo strtolower($projects_list[$i]['name_en']); ?>">
 												<div class="check-line">
 													<input type="checkbox" class='icheck-me ' <?php echo $checked; ?>  data-skin="minimal" value='<?php echo $projects_list[$i]['id']; ?>' name='projectid[]'>
 													<label class='inline' for="c<?php echo $projects_list[$i]['id']; ?>"><?php echo $projects_list[$i]['name_en']; ?></label>
@@ -266,3 +279,39 @@ window.location = './?page=user';
 			</div>
 		</div>
 	</div>
+<script>
+ 
+ 
+$(document).ready(function() {
+	$( "#search_project" ).keyup(function() {
+		var search_val = $(this).val();
+		search_val = search_val.toLowerCase();
+		 
+		$(".project").hide();
+		 
+   		$("[class*='project'][data-skin*='"+search_val+"']").show();
+    	//alert('"'+search_val+'"');
+		if (search_val==''){
+    		$(".project").show();
+    		 
+    	}
+	});
+ 
+	$( "#showall" ).click(function() {
+  		$(".project").show(); 
+  		$( "#search_project" ).val('');
+	});
+	$('#selecctall').click(function(event) {  //on click  
+        if(this.checked) { // check select status
+            $('.check-me').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"               
+            });
+        }else{
+            $('.check-me').each(function() { //loop through each checkbox
+                this.checked = false; //deselect all checkboxes with class "checkbox1"                       
+            });         
+        }
+    });
+	 
+});
+</script>

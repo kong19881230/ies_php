@@ -78,8 +78,9 @@
 											<th style="text-align: center;">#ID</th>
 											<th style="text-align: center;">Phone num</th>
 											<th style="text-align: center;">ref_no</th>
-											<th style="text-align: center;">machine_id</th>
 											 
+											<th style="text-align: center;  ">Model ID</th>
+											<th style="text-align: center;  ">type</th>
 											 
 											<th style="text-align: center;">Photo </th>
 											 
@@ -109,17 +110,9 @@
 											<td style="text-align: center;"><?php echo $equipments_list[$i]['id']; ?></td>
 											<td style="text-align: center;"><?php echo $equipments_list[$i]['phone_num']; ?> </td>
 											<td style="text-align: center;"><?php echo chkempty($equipments_list[$i]['ref_no']); ?></td>
-											<td style="text-align: center;">
-												<?php
-													$machines = Sdba::table('machines');
-													$machines->where('id',$equipments_list[$i]['machine_id']); 
-  										 			$total_machines = $machines->total();
-  													$machines_list = $machines->get();
-  										  		?>
-  										  		<a href='?page=machines_edit&id=<?php echo $equipments_list[$i]['machine_id']; ?>' ><?php echo  $machines_list[0]['name'].' / '.$machines_list[0]['model_id']; ?></a>
-												
-											</td>
 											 
+											<td style="text-align: center;"><?php echo chkempty($equipments_list[$i]['model_id']); ?></td>
+											<td style="text-align: center;"><?php echo $from_type[$equipments_list[$i]['type']]; ?></td>
 											 
 											<td style="text-align: center;"><img src="photo/equipment/<?php echo $equipments_list[$i]['photo']; ?>" width="120px" ></td>
 											 
@@ -128,11 +121,14 @@
 												<a href="?page=equipments_edit&id=<?php echo $equipments_list[$i]['id']; ?>" class="btn" rel="tooltip" title="" data-original-title="Edit">
 													<i class="fa fa-pencil-square-o"></i>
 												</a>
-												<a href="#del" class="btn del" rel="tooltip" title="" data-original-title="Delete" id='del<?php echo $equipments_list[$i]['id']; ?>' style="display:none;">
-													<i class="fa fa-times"></i>
+												 <a href="#copy" class="btn copy" rel="tooltip" title="" data-original-title="Copy" id='copy<?php echo $equipments_list[$i]['id']; ?>'  >
+													<i class="fa fa-files-o"></i>
 												</a>
-												 
-												 <input name="selpn" type="hidden" id="selpn<?php echo $equipments_list[$i]['id']; ?>" value="“<?php echo $equipments_list[$i]['name_cn']; ?> / <?php echo $equipments_list[$i]['name_en']; ?>”">
+												<a href="#del" class="btn del" rel="tooltip" title="" data-original-title="Delete" id='del<?php echo $equipments_list[$i]['id']; ?>'  >
+													<i class="fa fa-trash-o"></i>
+												</a>
+												
+												 <input name="selpn" type="hidden" id="selpn<?php echo $equipments_list[$i]['id']; ?>" value="“<?php echo $equipments_list[$i]['ref_no']; ?>”">
 											</td>
 										</tr>
 									<?php } ?>
@@ -145,10 +141,57 @@
 			</div>
 		</div>
 	</div>
-	
+	<div class="overlays" id="overlay" style="display:none;" ></div>
+	<div class="delbox" id="delmsg" style="display:none;">
+        <div class="contents" style="height:200px; color:#333">
+        	<i class="fa fa-exclamation-triangle" style="float: left; margin-left:200px; font-size:50px;margin-top: 10px;"></i>
+            <p style="font-size: 36px;margin-top: 10px; text-align: left; margin-left:260px;">請注意！</p>
+            <p style="font-size: 14px;margin-top: -16px; text-align: left; margin-left:260px; ">您是否要删除 <span id="msg"></span> 嗎？删除後將無法還原！</p>
+        </div>
+        <div class="last" style="margin: -110px -20px -20px -20px;">
+        		<button class="btn btn-primary" style="margin-right: 10px; min-width:88px; background-color: #368ee0;" id="delcomfig">確認删除</button>
+				<button class="btn btn-primary" style="margin-right: 200px; min-width:88px; background-color: #555;" id="dcloses">取消</button>
+                <input name="delpopn" type="hidden" id="delpopn" value="">
+                <input name="delpoid" type="hidden" id="delpoid" value="">
+        </div>
+    </div>
       <script type="text/javascript">
 	//JQuery 実装
 	$(document).ready(function(){
+	
+		//确认删除
+		$('.copy').click(function(){
+			var poid= $(this).attr('id');
+			poid = poid.slice(4);
+			//var pn= $('#selpn'+poid).val();
+			
+			var MM_copy = "copy_equipments";
+
+			var dataString =  'id='+ poid +'&MM_copy='+ MM_copy ;	
+			//alert(dataString+"/");
+		 
+			$.ajax({
+				type: "POST",
+				url: "edit_data.php",
+				data: dataString,
+				cache: false,
+				success: function(text)
+				{
+					text = $.trim(text);
+					
+					if (text == "ok"){
+						//alert("複製成功");
+						location.reload();
+					}else{
+						alert("複製錯誤\n \n /"+text+"/");
+						$('#delmsg').hide();
+						$('#overlay').fadeOut('fast');
+					}
+					 
+				}
+			});
+		 
+		});
      
 		$('.del').click(function(){
 		 

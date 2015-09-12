@@ -1,6 +1,6 @@
 
 { "aaData": [
-	[ "1", "Armand", "Warren", "56045", "Taiwan, Province of China" ],
+	[ "1", "Armand", "Warren", "56045", "Taiwan" ],
 	[ "2", "Xenos", "Salas", "71090", "Liberia" ],
 	[ "3", "Virginia", "Whitaker", "62723", "Nicaragua" ],
 	[ "4", "Kato", "Patrick", "97662", "Palau" ],

@@ -1,3 +1,12 @@
+.input-group .form-control:first-child, .input-group-addon:first-child, .input-group-btn:first-child>.btn, .input-group-btn:first-child>.dropdown-toggle, .input-group-btn:last-child>.btn:not(:last-child):not(.dropdown-toggle) {
+	@include border-radius(0);
+}
+
+.form-control{
+	@include box-shadow(none);
+	@include border-radius(0);
+}
+
 .dropdown-menu{
 	border:2px solid #666;
 	background:#fff;
@@ -88,6 +97,10 @@
 	form{
 		margin-bottom: 0;
 	}
+
+	.modal-footer{
+		margin-top: 0;
+	}
 }
 
 .input-append input, .input-append select, .input-append .uneditable-input {
@@ -109,6 +122,7 @@
 .btn-group{
 	&.text{
 		font-size:13px;
+		line-height:30px;
 	}
 	.dropdown,.pagination{
 		font-size:13px;
@@ -171,13 +185,14 @@
 	@include text-shadow(none);
 }
 
-input, textarea{
+input, textarea, input:focus{
 	-webkit-border-radius: 0 !important;
 	-moz-border-radius: 0 !important;
 	border-radius: 0 !important;
 	-webkit-box-shadow: none !important;
 	-moz-box-shadow: none !important;
 	box-shadow: none !important;
+	outline-width: 0;
 }
 
 .modal{
@@ -228,7 +243,6 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
 .form-horizontal{
 	.control-label{
 		text-align:left;
-		width:140px;
 	}
 
 	.controls{
@@ -429,9 +443,12 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
 	padding: 0;
 }
 
-.accordion{
-	.accordion-group{
+.panel-group{
+	.panel{
 		@include border-radius(0);
+		.panel-heading, .panel-title > a {
+			@include border-radius(0);
+		}
 	}
 }
 
@@ -445,6 +462,10 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
 }
 
 .pagination-large ul>li:first-child>a, .pagination-large ul>li:first-child>span, .pagination-large ul>li:last-child>a, .pagination-large ul>li:last-child>span, .pagination ul>li:first-child>a, .pagination ul>li:first-child>span, .pagination-mini ul>li:first-child>a, .pagination-small ul>li:first-child>a, .pagination-mini ul>li:first-child>span, .pagination-small ul>li:first-child>span, .pagination ul>li:last-child>a, .pagination ul>li:last-child>span, .pagination-mini ul>li:last-child>a, .pagination-small ul>li:last-child>a, .pagination-mini ul>li:last-child>span, .pagination-small ul>li:last-child>span {
+	@include border-radius(0);
+}
+
+.modal-content{
 	@include border-radius(0);
 }
 

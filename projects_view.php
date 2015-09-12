@@ -1,9 +1,17 @@
- <?php if (!defined('EL_ADMIN')) exit('No direct script access allowed'); ?>
+ <?php if (!defined('EL_ADMIN')) exit('No direct script access allowed'); date_default_timezone_set("Asia/Hong_Kong"); ?>
  		<div id="main">
 			<div class="container-fluid">
+			<?php  
+  					$projects = Sdba::table('projects');
+  					$projects->where('id',$_GET['id']);
+  					$total_projects = $projects->total();
+  					$projects_list = $projects->get();
+  					//echo $total_rows;
+  					//print_r($reportlist);
+  				?>
 				<div class="page-header">
 					<div class="pull-left">
-						<h1>Projects</h1>
+						<h1><?php echo $projects_list[0]['name_cn']; ?> ／ <?php echo $projects_list[0]['name_en']; ?></h1>
 					</div>
 					<div class="pull-right">
 						 
@@ -19,14 +27,7 @@
 						</ul>
 					</div>
 				</div>
-				<?php  
-  					$projects = Sdba::table('projects');
-  					$projects->where('id',$_GET['id']);
-  					$total_projects = $projects->total();
-  					$projects_list = $projects->get();
-  					//echo $total_rows;
-  					//print_r($reportlist);
-  				?>
+				
 				<div class="breadcrumbs">
 					<ul>
 						<li>
@@ -53,13 +54,23 @@
 				<div class="row">
 					<div class="col-sm-12">
 						<div class="box box-bordered">
+							<form action="#" method="POST" class='form-horizontal form-bordered'>
 							<div class="box-title">
 								<h3>
-									<i class="fa fa-th-list"></i><?php echo $projects_list[0]['name_cn']; ?> ／ <?php echo $projects_list[0]['name_en']; ?></h3>
-								<div style="float:right; padding-right:10px;"><button type="submit" class="btn btn-primary" style="width:100px;" onclick="javascript:location.href='?page=projects_edit&id=<?php echo $projects_list[0]['id']; ?>'">Edit</button></div>
+									<i class="fa fa-th-list"></i>基本資料</h3>
+								<div style="float:right; padding-right:10px;"><a class="btn btn-primary" style="width:100px;"  href='?page=projects_edit&id=<?php echo $projects_list[0]['id']; ?>' >Edit</a></div>
 							</div>
 							<div class="box-content nopadding">
-								<form action="#" method="POST" class='form-horizontal form-bordered'>
+								
+									<div class="form-group">
+										<label for="textarea" class="control-label col-sm-2">圖片</label>
+										<div class="col-sm-10">
+											<a href="photo/project/<?php echo $projects_list[0]['photo']; ?>" class="colorbox-image cboxElement" rel="group-1">
+												<img src="photo/project/<?php echo $projects_list[0]['photo']; ?>" height="100px" >
+											</a>
+												
+										</div>
+									</div>
 									<div class="form-group">
 										<label for="textfield" class="control-label col-sm-2">項目編號</label>
 										<div class="col-sm-10">
@@ -80,7 +91,13 @@
 											
 										</div>
 									</div>
-									
+									<div class="form-group">
+										<label for="textfield" class="control-label col-sm-2">合約期數</label>
+										<div class="col-sm-10">
+											<span class="form-control"  style='border:0px;'><?php echo chkempty($projects_list[0]['con_count']); ?></span>
+											
+										</div>
+									</div>
 									<div class="form-group">
 										<label for="textfield" class="control-label col-sm-2">保養內容</label>
 										<div class="col-sm-10">
@@ -124,6 +141,35 @@
 											<span class="form-control"  style='border:0px;'><?php echo chkempty($projects_list[0]['updated_at']); ?></span>
 										</div>
 									</div>
+									 <div class="form-group">
+										<label for="text" class="control-label col-sm-2">地區</label>
+										<div class="col-sm-10">
+											<span class="form-control"  style='border:0px;'><?php if ($projects_list[0]['region']=='mo'){ echo 'Macau'; }elseif($projects_list[0]['region']=='hk'){ echo 'Hong Kong'; }  ?></span>
+											 
+										</div>
+									</div>
+									 
+									 
+									<div class="form-group">
+										<label for="textarea" class="control-label col-sm-2">註備</label>
+										<div class="col-sm-10">
+											<span class="form-control"  style='border:0px;'><?php echo chkempty($projects_list[0]['remark']); ?></span>
+											 
+										</div>
+									</div>
+									
+									
+									
+								
+							</div>
+							<div class="box-title">
+								<h3>
+									<i class="fa fa-th-list"></i>報告的設定</h3>
+								 
+							</div>
+							<div class="box-content nopadding">
+								
+									 
 									<div class="form-group">
 										<label for="textfield" class="control-label col-sm-2">保養期</label>
 										<div class="col-sm-10">
@@ -173,27 +219,27 @@
 										</div>
 									</div>
 									 
-									<div class="form-group">
-										<label for="textarea" class="control-label col-sm-2">註備</label>
-										<div class="col-sm-10">
-											<span class="form-control"  style='border:0px;'><?php echo chkempty($projects_list[0]['remark']); ?></span>
-											 
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="textarea" class="control-label col-sm-2">圖片</label>
-										<div class="col-sm-10">
-											<img src="photo/project/<?php echo $projects_list[0]['photo']; ?>" height="200px" >
-											 
-										</div>
-									</div>
-									
-									<div class="form-actions col-sm-offset-2 col-sm-10">
+									 <div class="form-actions col-sm-offset-2 col-sm-10">
 										<a class="btn btn-primary" style="width:100px;"  href='?page=projects_edit&id=<?php echo $projects_list[0]['id']; ?>' >Edit</a>
 										<a type="button" class="btn" href='?page=projects'  style="width:100px;" >Back</a>
 									</div>
-								</form>
 							</div>
+							<div class="box-title"  style="display:none;">
+								<h3>
+									<i class="fa fa-th-list"></i>GSM 程式的設定</h3>	
+							</div>
+							<div class="box-content nopadding" style="display:none;">
+								
+									<div class="form-group">
+										<label for="textfield" class="control-label col-sm-2">預設語言</label>
+										<div class="col-sm-10">
+											<span class="form-control"  style='border:0px;'><?php if ($projects_list[0]['default_lang']=='en'){ echo 'English'; }elseif($projects_list[0]['default_lang']=='cn'){ echo '中文'; } ?></span>
+
+										</div>
+									</div>
+									
+ 							</div>
+							</form>
 						</div>
 					</div>
 				</div>
