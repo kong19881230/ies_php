@@ -1,0 +1,71 @@
+/* Demo CSS */
+
+/*@import url(http://fonts.googleapis.com/css?family=PT+Sans);*/
+
+body {
+	margin: 0px;
+	background: #F3F3F3 url(../img/bg.png);
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	/*font-family: 'PT Sans', sans-serif;*/
+	font-size: 14px;
+	color: #333;
+}
+a {
+	color: #428bca;
+	text-decoration: none;
+}
+a:hover,
+a:focus {
+	color: #2a6496;
+	text-decoration: underline;
+}
+h1.demo-title {
+	margin: 0 0 10px;
+	color: #4e4646;
+	text-align: center;
+	font-weight: normal;
+}
+h1.demo-title span {
+	color: #0976a5;
+}
+h2.getit {
+	text-align: center;
+}
+#container {
+	background: #fff;
+	max-width: 600px;
+	min-width: 420px;
+	min-height: 100px;
+	margin: 1.5em auto;
+	padding: 1em;
+	border: 1px solid #D8D8D8;
+	-webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, .065);
+	-moz-box-shadow: 0 1px 4px rgba(0,0,0,.065);
+	box-shadow: 0 1px 4px rgba(0, 0, 0, .065);
+}
+.getit a {
+	color: #ec5d59;
+}
+
+.profile .profile-image {
+	float: left;
+	vertical-align: middle;
+	border: 0;
+	padding: 4px;
+	line-height: 20px;
+	border: 1px solid #ddd;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.055);
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.055);
+	box-shadow: 0 1px 3px rgba(0,0,0,0.055);
+	-webkit-transition: all .2s ease-in-out;
+	-moz-transition: all .2s ease-in-out;
+	-o-transition: all .2s ease-in-out;
+	transition: all .2s ease-in-out;
+}
+.profile .user-info {
+	float: left;
+	margin-left: 20px;
+}
