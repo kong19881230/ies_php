@@ -85,7 +85,34 @@
                         }
                        $maintain_item_hash[$machine_type["name"]]=$maintain_item_list;
                   }
+
+
+
                   $response["from_items_hash"]= $maintain_item_hash;
+
+
+
+                   $machine_elements = Sdba::table('machine_elements');  
+                   $machine_elements->fields('machine_part');
+                   $machine_elements->distinct();
+                   $machine_part_list=$machine_elements->get();
+                   $machine_part_array=array();
+                   foreach ($machine_part_list as &$machine_part) {
+                      array_push($machine_part_array, $machine_part["machine_part"]);
+
+
+                      $machine_elements->fields('machine_element');
+                      $machine_elements->where('machine_part',$machine_part["machine_part"]);
+                      $machine_element_list=$machine_elements->get();
+                       $machine_element_array=array();
+                       foreach ($machine_element_list as &$machine_element) {
+                          array_push($machine_element_array, $machine_element["machine_element"]);
+                      }
+                      $machine_element_hash[$machine_part["machine_part"]]=$machine_element_array;
+                   }
+
+                    $response["machine_elements"]=$machine_element_hash;
+                   $response["machine_parts"]=$machine_part_array;
                   die(json_encode($response));
           }
           else {

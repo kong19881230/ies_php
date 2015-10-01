@@ -76,8 +76,12 @@ $link = 'http://uniquecode.net/job/ms/';
   				
   				if (isset($_GET['p'])&&($_GET['p']!='')){
   					$start=($_GET['p']-1)*$setpershow;
-  		 
-  					$show = $setpershow;			
+  		 			if($item_qty<$start+$setpershow){
+  		 				$show =$item_qty-$start;
+  		 			}else{
+  		 				$show = $setpershow;
+  		 			}
+  								
   				}else{
   					$_GET['p']=1;
   					$start=0;
@@ -151,8 +155,8 @@ $link = 'http://uniquecode.net/job/ms/';
   									?>
   									
   										<tr >
-											<td style="vertical-align: middle;"align="center"><?php echo $j; ?></td>
-											<td style="vertical-align: middle;" <?php if ($result['type']=='none'){echo 'colspan="3" align="center"';} ?>><?php echo $maintain_item_results_list[0][$i]['item_name_cn']; ?><br><?php echo $maintain_item_results_list[0][$i]['item_name_en']; ?></td>
+											<td style="vertical-align: middle;" align="center"><?php echo $j; ?></td>
+											<td style="vertical-align: middle;" <?php if ($result[0]['type']=='none'){echo 'colspan="'.(1+2*$show).'" align="center"';} ?>><?php echo $maintain_item_results_list[0][$i]['item_name_cn']; ?><br><?php echo $maintain_item_results_list[0][$i]['item_name_en']; ?></td>
 											<input name="tdresult" id="new<?php echo $maintain_item_results_list[0][$i]['id']; ?>result" type="hidden" value="<?php echo $maintain_item_results_list[0][$i]['result']; ?>">
 											<?php 
 											 

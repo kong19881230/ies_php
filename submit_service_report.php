@@ -27,7 +27,7 @@ if(isset($_POST['report'])) {
     }
     
     $detail_data=array('report_id'=>$report->id,'problem_reported'=>$details->problem_reported,'project_name'=>$details->project_name,'device_name'=>$details->device_name,'is_system_down'=>$details->is_system_down,
-      'reported_by'=>$details->reported_by,'device_model'=>$details->device_model,'device_id'=>$details->device_id,'power'=>$details->power,
+      'reported_by'=>$details->reported_by,'machine_element'=>$details->machine_element,'machine_part'=>$details->machine_part,'device_model'=>$details->device_model,'device_id'=>$details->device_id,'power'=>$details->power,
       'machine_type'=>$details->machine_type,'location'=>$details->location,'situation'=>json_encode($details->situation),'inspection_found'=>$details->inspection_found,
       'status_after_service'=>$details->status_after_service,'remarks'=>$details->remarks,'contact_name'=>$details->contact_name,'designation'=>$details->designation,
       'phone'=>$details->phone,'fax'=>$details->fax,'email'=>$details->email,'reported_at'=>$details->reported_at,'end_service_at'=>$details->end_service_at,'start_service_at'=>$details->start_service_at);

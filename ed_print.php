@@ -110,7 +110,7 @@ serif; font-size: 9pt; color: #000088;"><tr>
 										</td>
 									</tr>
 									<tr>
-										<td colspan="2">
+										<td colspan="3">
 											<strong >System Down (系統停止):　</strong> 
 											<?php if($emergency_details_list[0]['is_system_down']=='true'){ ?>
 											<span class='circle'>　Yes　</span>　/　No　
@@ -119,12 +119,17 @@ serif; font-size: 9pt; color: #000088;"><tr>
 											<?php } ?>
 											<em style="font-size:12px;padding-top: 6px; padding-right: 26px; float:right;">*Please circle</em>
 										</td>
-									<td><strong >Equipment Type (設備種類):　　</strong><?php if( $emergency_details_list[0]['device_name']==""){ echo $from_type_en[$emergency_details_list[0]['machine_type']];}else{ echo $emergency_details_list[0]['device_name'];} ?> </td>
-								</tr>
+									</tr>
 									<tr>
-										<td width='30%'><strong >Power (功率):　</strong><?php echo $emergency_details_list[0]['power']; ?> </td>
+										<td width='40%'><strong >Equipment Type (設備種類):　　</strong><?php if( $emergency_details_list[0]['device_name']==""){ echo $from_type_en[$emergency_details_list[0]['machine_type']];}else{ echo $emergency_details_list[0]['device_name'];} ?> </td>
+										<td width='30%'><strong >Part of Equipment  (設備部位):　　</strong><?php echo $emergency_details_list[0]['machine_part']; ?></td>
+										<td width='30%'><strong >Element Name (元件名稱):　　</strong><?php echo $emergency_details_list[0]['machine_element']; ?></td>
+									
+									</tr>
+									<tr>
+										<td width='40%'><strong >Power (功率):　</strong><?php echo $emergency_details_list[0]['power']; ?> </td>
 										<td width='30%'><strong >Model (型號):　</strong><?php echo $emergency_details_list[0]['device_model']; ?></td>
-										<td width='40%'><strong >Serial No. (編號):　</strong><?php echo $emergency_details_list[0]['device_id']; ?></td>
+										<td width='30%'><strong >Serial No. (編號):　</strong><?php echo $emergency_details_list[0]['device_id']; ?></td>
 									</tr>
 									<tr>
 										<td><strong >Call Reported by (匯報部門	):　</strong><?php echo $emergency_details_list[0]['reported_by']; ?></td>

@@ -86,12 +86,11 @@ if (!isset($_GET['page'])) {
 										</td>
 									</tr>
 									<tr>
-										<td colspan="2">System Down (系統停止): </td>
-										<td>Equipment Type (設備種類): <br>
-										</td>
+										<td colspan="3">System Down (系統停止): </td>
+										
 									</tr>
 									<tr >
-									  <td colspan="2" style="border-top: 2px solid #fff;color:#000; font-size:16px; padding:2px 12px;"  align="right" class='ans'> 
+									  <td colspan="3" style="border-top: 2px solid #fff;color:#000; font-size:16px; padding:2px 12px;"  align="right" class='ans'> 
 									   <span  style="font-size:13px;color:#222;">
                                       <?php if($emergency_details_list[0]['is_system_down']=='true'){ ?>
                                       <span class='circle'> Yes </span> /  No
@@ -100,12 +99,22 @@ if (!isset($_GET['page'])) {
 										<?php } ?>
 										</span>
                                        </td>
-									  <td class='ans' style="border-top: 2px solid #fff;color:#000; font-size:16px; padding:2px 12px;"  align="right"> <?php if( $emergency_details_list[0]['device_name']==""){ echo $from_type_en[$emergency_details_list[0]['machine_type']];}else{ echo $emergency_details_list[0]['device_name'];} ?>  </td>
+									 
  								 	</tr>
+ 								 	<tr>
+										<td width='40%'>Equipment Type (設備種類): </td>
+										<td width='30%'>Part of Equipment  (設備部位):　 </td>
+										<td width='30%'>Element Name (元件名稱):  </td>
+									</tr>
 									<tr>
-										<td width='30%'>Power (功率):  </td>
+									  <td class='ans' style="border-top: 2px solid #fff;color:#000; font-size:16px; padding:2px 12px;"  align="right"> <?php if( $emergency_details_list[0]['device_name']==""){ echo $from_type_en[$emergency_details_list[0]['machine_type']];}else{ echo $emergency_details_list[0]['device_name'];} ?>  </td>
+									  <td class='ans' style="border-top: 2px solid #fff;color:#000; font-size:16px; padding:2px 12px;"  width='30%' align="right"><?php echo $emergency_details_list[0]['machine_part']; ?></td>
+									  <td class='ans' style="border-top: 2px solid #fff;color:#000; font-size:16px; padding:2px 12px;"  width='40%' align="right"><?php echo $emergency_details_list[0]['machine_element']; ?></td>
+  </tr>
+									<tr>
+										<td width='40%'>Power (功率):  </td>
 										<td width='30%'>Model (型號): </td>
-										<td width='40%'>Serial No. (編號):  </td>
+										<td width='30%'>Serial No. (編號):  </td>
 									</tr>
 									<tr>
 									  <td class='ans' style="border-top: 2px solid #fff;color:#000; font-size:16px; padding:2px 12px;"  align="right"><?php echo $emergency_details_list[0]['power']; ?></td>

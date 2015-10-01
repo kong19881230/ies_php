@@ -157,7 +157,7 @@ window.location = './?page=emergency_details_view&id=<?php echo $_GET["id"]; ?>'
 										</td>
 									</tr>
 									<tr>
-										<td colspan="2">
+										<td colspan="3">
 											<strong style="float:left;">System Down (系統停止):　　</strong> 
 											
 											<select class="form-control input-sm" style="width:120px; float:left;" name='is_system_down'>
@@ -167,7 +167,10 @@ window.location = './?page=emergency_details_view&id=<?php echo $_GET["id"]; ?>'
 											
 											<em style="font-size:12px;padding-top: 6px; padding-right: 26px; float:right;">*Please select</em>
 										</td>
-										<td><strong style="float:left;">Equipment Type (設備種類):　　</strong>
+									
+									</tr>
+									<tr>
+										<td width='33%'><strong style="float:left;">Equipment Type (設備種類):　　</strong>
 											<select class="form-control input-sm" style="width:120px; float:left;" name='machine_type'>
 												<?php foreach ($from_type as $key => $value) { ?>
                                 				<option value="<?php echo $key; ?>" <?php if($emergency_details_list[0]['machine_type']==$key){ echo 'selected'; } ?> ><?php echo $from_type_en[$key]; ?></option>
@@ -175,6 +178,8 @@ window.location = './?page=emergency_details_view&id=<?php echo $_GET["id"]; ?>'
                                 			</select>
 											<input type="text" name='device_name' class="form-control" style="padding-right: 24px; " id="new_value" placeholder="<?php echo $emergency_details_list[0]['device_name']; ?>" value="<?php echo $emergency_details_list[0]['device_name']; ?>">
 										 </td>
+										<td width='33%'><strong >Part of Equipment  (設備部位):　　</strong><?php echo $emergency_details_list[0]['machine_part']; ?></td>
+										<td width='34%'><strong >Element Name (元件名稱):　　</strong><?php echo $emergency_details_list[0]['machine_element']; ?></td>
 									</tr>
 									<tr>
 										<td width='33%'><strong >Power (功率):　　</strong><input type="text" name='power' class="form-control" style="padding-right: 24px; " id="new_value" placeholder="<?php echo $emergency_details_list[0]['power']; ?>" value="<?php echo $emergency_details_list[0]['power']; ?>"> </td>
